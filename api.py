@@ -5,23 +5,31 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/api/user', methods=['GET'])
-def get_user_info():
-    return jsonify("yes get")
-
-@app.route('/login', methods=['POST'])
-def login():
-    result = sql.loginUser(request.get_json())
+@app.route('/get/<path>/', methods=['GET'])
+def GetMethod(path):
+    result = None
+    if path == "storeCard":
+        result = sql.GetCard(request.get_json())
+    elif path == "actualCard":
+        result = sql.GetActualCard(request.get_json())
+    elif path == "shoppingCart":
+        result = sql.GetCart(request.get_json())
+    elif path == "store":
+        result = sql.GetStore(request.get_json())
     return jsonify(result)
 
-@app.route('/register', methods=['POST'])
+@app.route('/login', methods=['GET'])
 def login():
+    return jsonify(sql.loginUser(request.get_json()))
+
+@app.route('/register', methods=['POST'])
+def register():
     result = sql.registerUser(request.get_json())
     return jsonify(result)
 
-@app.route('/api/user', methods=['POST'])
-def submit_user_info():
-    result = sql.manageCommand(request.get_json())
+@app.route('/update', methods=['PUT'])
+def Update():
+    result = sql.updateCard(request.get_json())
     return jsonify(result)
 
 '''@app.route('/api/user')

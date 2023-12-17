@@ -32,7 +32,7 @@ CREATE TABLE ActualCard
   Card_ID INT NOT NULL,
   Name VARCHAR(10) NOT NULL,
   Catagory VARCHAR(10) NOT NULL,
-  Descibe VARCHAR(500) NOT NULL,
+  Description VARCHAR(500) NOT NULL,
   imgPath VARCHAR(50) NOT NULL,
   PRIMARY KEY (Card_ID)
 );
