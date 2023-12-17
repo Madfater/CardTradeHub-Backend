@@ -1,0 +1,171 @@
+drop database testdb;
+
+create database testdb;
+use testDB;
+
+
+CREATE TABLE Order_List
+(
+  Order_ID INT NOT NULL,
+  Address VARCHAR(500),
+  Total_Price INT NOT NULL,
+  PRIMARY KEY (Order_ID)
+);
+
+CREATE TABLE Shopping_Cart
+(
+  Cart_ID INT NOT NULL,
+  Total_Price INT NOT NULL,
+  PRIMARY KEY (Cart_ID)
+);
+
+CREATE TABLE Store
+(
+  Store_ID INT NOT NULL,
+  Description VARCHAR(500),
+  ModiefiedDate DATE NOT NULL,
+  PRIMARY KEY (Store_ID)
+);
+
+CREATE TABLE ActualCard
+(
+  Card_ID INT NOT NULL,
+  Name VARCHAR(10) NOT NULL,
+  Catagory VARCHAR(10) NOT NULL,
+  Descibe VARCHAR(500) NOT NULL,
+  imgPath VARCHAR(50) NOT NULL,
+  PRIMARY KEY (Card_ID)
+);
+
+CREATE TABLE User
+(
+  User_ID INT NOT NULL,
+  Email VARCHAR(500) NOT NULL,
+  User_Name VARCHAR(10) NOT NULL,
+  Password VARCHAR(100) NOT NULL,
+  IsManager INT NOT NULL,
+  Cart_ID INT NOT NULL,
+  Store_ID INT NOT NULL,
+  Order_ID INT NOT NULL,
+  PRIMARY KEY (User_ID),
+  FOREIGN KEY (Cart_ID) REFERENCES Shopping_Cart(Cart_ID),
+  FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID),
+  FOREIGN KEY (Order_ID) REFERENCES Order_List(Order_ID)
+);
+
+CREATE TABLE StoreCard
+(
+  Card_ID INT NOT NULL,
+  Price INT NOT NULL,
+  Status VARCHAR(100) NOT NULL,
+  Quantity INT NOT NULL,
+  ACCard_ID INT NOT NULL,
+  PRIMARY KEY (Card_ID),
+  FOREIGN KEY (ACCard_ID) REFERENCES ActualCard(Card_ID)
+);
+
+CREATE TABLE comment
+(
+  Comment_ID INT NOT NULL,
+  Score INT NOT NULL,
+  Context VARCHAR(500) NOT NULL,
+  Store_ID INT NOT NULL,
+  User_ID INT NOT NULL,
+  PRIMARY KEY (Comment_ID),
+  FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID),
+  FOREIGN KEY (User_ID) REFERENCES User(User_ID)
+);
+
+CREATE TABLE Card_to_Cart_TableID
+(
+  Table_ID INT NOT NULL,
+  Cart_ID INT NOT NULL,
+  Card_ID INT NOT NULL,
+  PRIMARY KEY (Table_ID),
+  FOREIGN KEY (Cart_ID) REFERENCES Shopping_Cart(Cart_ID),
+  FOREIGN KEY (Card_ID) REFERENCES StoreCard(Card_ID)
+);
+
+CREATE TABLE Card_to_Store_Table
+(
+  Table_ID INT NOT NULL,
+  Store_ID INT NOT NULL,
+  Card_ID INT NOT NULL,
+  PRIMARY KEY (Table_ID),
+  FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID),
+  FOREIGN KEY (Card_ID) REFERENCES StoreCard(Card_ID)
+);
+CREATE TABLE Order_to_Card_Table
+(
+  Table_ID INT NOT NULL,
+  Order_ID INT NOT NULL,
+  Card_ID INT NOT NULL,
+  PRIMARY KEY (Table_ID),
+  FOREIGN KEY (Order_ID) REFERENCES Order_List(Order_ID),
+  FOREIGN KEY (Card_ID) REFERENCES StoreCard(Card_ID)
+);
+
+-- Insert data into Store table
+INSERT INTO Store (Store_ID, Description, ModiefiedDate)
+VALUES (1, 'Happy Card Store', '2023-01-01'),
+       (2, 'Chage Store', '2023-02-15'),
+       (3, 'Card Forever Store', '2023-03-20');
+       
+-- Insert data into Order_List table
+INSERT INTO Order_List (Order_ID, Address, Total_Price)
+VALUES (101, '台北市中山區自立街123號', 500),
+       (102, '高雄市楠梓區仁愛路456號', 15),
+       (103, '桃園市中壢區中正路222號', 40);
+       
+-- Insert data into Shopping_Cart table
+INSERT INTO Shopping_Cart (Cart_ID, Total_Price)
+VALUES (1, 500),
+       (2, 15),
+       (3, 40);
+-- Insert data into ActualCard table
+INSERT INTO ActualCard (Card_ID, Name, Catagory, Descibe, imgPath)
+VALUES (1, '青眼白龍', '怪獸卡', '超猛飛龍毀滅一切', 'https://imgur.com/a/2FFGPMs'),
+       (2, '黑魔導女孩', '怪獸卡', '漂亮妹妹', 'https://imgur.com/a/d9nT5Hz'),
+       (3, '死者復甦', '法術卡', '復活墓地一隻怪獸卡到場上', 'https://imgur.com/a/CYPu9TG'),
+       (4, '神聖彗星反射力量', '陷阱卡', '反射法術', 'https://imgur.com/a/Dd7OHBt'),
+       (5, '貪欲之壺', '法術卡', '抽五張卡', 'https://imgur.com/a/pmltCFP');	
+
+-- Insert data into User table
+INSERT INTO User (User_ID, Email, User_Name, Password, IsManager, Cart_ID, Store_ID, Order_ID)
+VALUES (1, 'user1@example.com', 'User1', 'password1', 0, 1, 1, 101),
+       (2, 'user2@example.com', 'User2', 'password2', 0, 2, 2, 102),
+       (3, 'user3@example.com', 'User3', 'password3', 0, 3, 3, 103);
+
+-- Insert data into StoreCard table
+INSERT INTO StoreCard (Card_ID, Price, Status, Quantity, ACCard_ID)
+VALUES (1, 500, '九成新狀態良好', 10, 1),
+       (2, 15, '舊卡新賣', 20, 2),
+       (3, 40, '九成新狀態良好', 15, 3),
+       (4, 500, '九成新狀態良好', 10, 4),
+       (5, 15, '舊卡新賣', 20, 5),
+       (6, 40, '九成新狀態良好', 15, 2);
+
+-- Insert data into Card_to_Cart_TableID table
+INSERT INTO Card_to_Cart_TableID (Table_ID, Cart_ID, Card_ID)
+VALUES (1, 1, 1),
+       (2, 2, 2),
+       (3, 3, 3);
+
+-- Insert data into Card_to_Store_Table table
+INSERT INTO Card_to_Store_Table (Table_ID, Store_ID, Card_ID)
+VALUES (1, 1, 1),
+       (2, 2, 2),
+       (3, 3, 3);
+
+-- Insert data into Order_to_Card_Table table
+INSERT INTO Order_to_Card_Table (Table_ID, Order_ID, Card_ID)
+VALUES (1, 101, 4),
+       (2, 102, 5),
+       (3, 103, 6);
+
+-- Insert data into comment table
+INSERT INTO comment (Comment_ID, Score, Context, Store_ID, User_ID)
+VALUES (1, 5, '賣家出貨快', 1, 1),
+       (2, 4, '優質卡片，卡片很新', 2, 2),
+       (3, 3, '賣家態度不佳', 3, 3);
+
