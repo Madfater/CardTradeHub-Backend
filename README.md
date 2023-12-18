@@ -12,16 +12,15 @@ Python套件記得裝
 
 執行[api.py](https://github.com/Madfater/CardShop/blob/backend_qq816/Backend/api.py)
 
-POST 127.0.0.1:5000/api/user
 
 測試用JSON檔
 
 
-### request json format
-login
+## request json format
+### login 
 ```python
+# /login , method = POST
 {
-    "type": "login" ,
     "email": "123@gmail.com",
     "password": "passwd"
 }
@@ -29,10 +28,10 @@ login
 return "login success" or "login failed"
 
 
-register
+### register
 ```python
+# /register , method = POST
 {
-    "type": "register",
     "password": "passwd",
     "username": "alan",
     "email": "123@gmail.com"
@@ -40,11 +39,11 @@ register
 ```
 return "User already exist" or "register success"
 
-GetCard
+### GetCard
 ```python
+# /get/storeCard/ , method = GET
 {
-    "type" : "GetCard", 
-    "param" : "龍",
+    "param" : "一",         # 搜尋關鍵字
     "page" : 1,
     "pageLimit" : 40
 }
@@ -69,20 +68,35 @@ return storeCard likes
 ]
 ```
 
-GetActualCard
+### GetActualCard
 ```python
+# /get/actualCard/ , method = GET
 {
-    "type" : "GetActualCard", 
     "Card_ID" : 1           # ACCard_ID from storeCard
 }
 ```
-updateCard
+return ActualCard likes
 ```python
+[
+    [
+        1,                             # Card_ID
+        "青眼白龍",                     # Name
+        "怪獸卡",                       # Catagory
+        "超猛飛龍毀滅一切",              # Description
+        "https://imgur.com/a/2FFGPMs"   # imgPath
+    ]
+]
+```
+
+### updateCard
+```python
+# /update , method = PUT
 {
-    "type" : "updateCard", 
-    "Card_ID" : 1,    # storeCard ID
+    "Card_ID" : 1,    # storeCard ID 
     "price" : 114514,
     "status" : "still new",
     "Quantity":999
+    # 至少包含 price status Quantity其中一項，未變更的可以不用加入
 }
 ```
+return "store Card_ID not exist" or "updated"

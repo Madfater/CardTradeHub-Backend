@@ -1,5 +1,6 @@
 import pymysql
 from datetime import datetime
+import asyncio
 
 # 資料輸入順序
 User_order = ["Email","User_Name","Password"]
@@ -49,13 +50,13 @@ def loginUser(data):
     return "login success" if data['password'] == acuratePassword else "login failed"
 
 # 查購物車
-def checkCart(data:dict):
+def GetCart(data:dict):
     cmd = f"Select * from Shopping_Cart where Cart_ID = {data['User_ID']}"
     result = list(command(cmd)[0])
     return {"Total_Price" : result[1]}
 
 # 查商店
-def checkStore(data:dict):
+def GetStore(data:dict):
     cmd = f"Select * from Store where Store_ID = {data['User_ID']}"
     result = list(command(cmd)[0])
     return {"Description" : result[1],"ModiefiedDate" : result[2]}
@@ -74,30 +75,23 @@ def GetCard(data:dict):
 
 # 更新 storeCard
 def updateCard(data:dict):
+    if command(f"select * from storeCard where Card_ID = {data['Card_ID']}"):
+        return "store Card_ID not exist"
+    condition = [f"price = {data['price']}"] if data.get('price') != None else []
+    condition += [f"status = '{data['status']}'"] if data.get('status') != None else []
+    condition += [f"Quantity = {data['Quantity']}"] if data.get('Quantity') != None else []
     cmd = f'''
     update storeCard
-    set price = {data['price']}, status = "{data['status']}", Quantity = {data['Quantity']}
+    set {",".join(condition)}
     where Card_ID = {data['Card_ID']};
     '''
-    return command(cmd)
+    command(cmd)
+    return "updated"
 
 # 取得 ActualCard
 def GetActualCard(data:dict):
     cmd = f"select * from ActualCard where Card_ID = {data['Card_ID']}"
     return command(cmd)
-
-# 處理傳入的json 跟據 json['type']來判斷操作
-def manageCommand(data:dict):
-    if data['type'] == "GetCard":
-        return GetCard(data)
-    if data['type'] == "GetActualCard":
-        return GetActualCard(data)
-    if data['type'] == "checkCart":
-        return checkCart(data)
-    if data['type'] == "checkStore":
-        return checkStore(data)
-    if data['type'] == "updateCard":
-        return updateCard(data)
     
 # 執行操作
 def command(waitting_command:str):
