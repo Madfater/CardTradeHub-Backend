@@ -27,10 +27,16 @@ def register():
     result = sql.registerUser(request.get_json())
     return jsonify(result)
 
+@app.route('/comment', methods=['POST'])
+def Comment():
+    result = sql.AddComment(request.get_json())
+    return jsonify(result)
+
 @app.route('/update', methods=['PUT'])
 def Update():
     result = sql.updateCard(request.get_json())
     return jsonify(result)
+
 
 '''@app.route('/api/user')
 def renderHtml():

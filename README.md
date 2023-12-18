@@ -19,7 +19,7 @@ Python套件記得裝
 ## request json format
 ### login 
 ```python
-# /login , method = POST
+# /login , method = GET
 {
     "email": "123@gmail.com",
     "password": "passwd"
@@ -87,6 +87,19 @@ return ActualCard likes
     ]
 ]
 ```
+
+### AddComment
+```python
+# /comment , method = POST
+{
+    "score" : 5,
+    "context" : "777",
+    "store_id" : 2,
+    "user_id":1
+}
+
+```
+return "added" or "add failed"
 
 ### updateCard
 ```python
