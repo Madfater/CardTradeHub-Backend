@@ -8,8 +8,8 @@ CORS(app)
 @app.route('/get/<path>/', methods=['GET'])
 def GetMethod(path):
     result = None
-    if path == "storeCard":
-        result = sql.GetCard(request.get_json())
+    if path == "searchCard":
+        result = sql.searchCard(request.get_json())
     elif path == "actualCard":
         result = sql.GetActualCard(request.get_json())
     elif path == "shoppingCart":
@@ -27,9 +27,13 @@ def register():
     result = sql.registerUser(request.get_json())
     return jsonify(result)
 
-@app.route('/comment', methods=['POST'])
-def Comment():
-    result = sql.AddComment(request.get_json())
+@app.route('/add/comment', methods=['POST'])
+def AddMethod():
+    result = None
+    if path == "comment":
+        result = sql.AddComment(request.get_json())
+    elif path == "storeCard":
+        result = sql.AddCard(request.get_json())
     return jsonify(result)
 
 @app.route('/update', methods=['PUT'])

@@ -52,17 +52,17 @@ def loginUser(data):
 # 查購物車
 def GetCart(data:dict):
     cmd = f"Select * from Shopping_Cart where Cart_ID = {data['User_ID']}"
-    result = list(command(cmd)[0])
-    return {"Total_Price" : result[1]}
+    cmd += f" Limit {(data['page']-1)*data['pageLimit']},{data['pageLimit']}"
+    return command(cmd)
 
 # 查商店
 def GetStore(data:dict):
     cmd = f"Select * from Store where Store_ID = {data['User_ID']}"
-    result = list(command(cmd)[0])
-    return {"Description" : result[1],"ModiefiedDate" : result[2]}
+    cmd += f" Limit {(data['page']-1)*data['pageLimit']},{data['pageLimit']}"
+    return command(cmd)
 
 # 取得 storecard
-def GetCard(data:dict):
+def searchCard(data:dict):
     cmd = f'''Select * from storeCard sc 
     where sc.ACCard_ID IN 
         (select Card_ID 
@@ -72,6 +72,14 @@ def GetCard(data:dict):
         Limit {(data['page']-1)*data['pageLimit']},{data['pageLimit']}
     '''
     return command(cmd)
+
+# 增加 storeCard
+def AddCard(data:dict):
+    id = countTable("StoreCard") + 1
+    storeCard_arg = [id,data["price"],data['status'],data['quantity'],data['ACCard_ID']]
+    command(insert("StoreCard",store_arg))
+    command(insert("Card_to_Store_Table",[countTable("Card_to_Store_Table")+1, data["Store_ID"], data["Card_ID"]]))
+    return "added"
 
 # 更新 storeCard
 def updateCard(data:dict):

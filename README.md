@@ -17,7 +17,10 @@ Python套件記得裝
 
 
 ## request json format
-### login 
+### User
+<details>
+<summary>login</summary>
+
 ```python
 # /login , method = GET
 {
@@ -26,9 +29,13 @@ Python套件記得裝
 }
 ```
 return "login success" or "login failed"
+</details>
 
 
-### register
+
+<details>
+<summary>register</summary>
+
 ```python
 # /register , method = POST
 {
@@ -38,10 +45,63 @@ return "login success" or "login failed"
 }
 ```
 return "User already exist" or "register success"
+</details>
 
-### GetCard
+### Shopping Cart
+
+<details>
+<summary>GetShoppingCart</summary>
+
 ```python
-# /get/storeCard/ , method = GET
+# /get/shoppingCart/ , method = GET
+{
+    "User_ID" : 1,
+    "page" : 1,
+    "pageLimit" : 40
+}
+```
+return likes
+```python
+[
+    [
+        1, # Cart_ID
+        500 # Total_price
+    ]
+]
+```
+</details>
+
+### Store
+
+<details>
+<summary>GetStore</summary>
+
+```python
+# /get/store/ , method = GET
+{
+    "Store_ID" : 1,
+    "page" : 1,
+    "pageLimit" : 40
+}
+```
+return likes
+```python
+[
+    [
+        1, # 
+        500 # Total_price
+    ]
+]
+```
+</details>
+
+### Store Card
+
+<details>
+<summary>searchCard (store Card)</summary>
+
+```python
+# /get/searchCard/ , method = GET
 {
     "param" : "一",         # 搜尋關鍵字
     "page" : 1,
@@ -67,8 +127,49 @@ return storeCard likes
     ]
 ]
 ```
+</details>
 
-### GetActualCard
+
+
+<details>
+<summary>AddStoreCard</summary>
+
+```python
+{
+    "price" : 100,
+    "status" : "kinda new",
+    "quantity" : 10,
+    "ACCard_ID" : 1,
+    "Store_ID" : 1
+}
+```
+return "added"
+</details>
+
+
+
+<details>
+<summary>updateStoreCard</summary>
+
+```python
+# /update , method = PUT
+{
+    "Card_ID" : 1,    # storeCard ID 
+    "price" : 114514,
+    "status" : "still new",
+    "Quantity":999
+    # 至少包含 price status Quantity其中一項，未變更的可以不用加入
+}
+```
+return "store Card_ID not exist" or "updated"
+</details>
+
+
+### Actual Card
+
+<details>
+<summary>GetActualCard</summary>
+
 ```python
 # /get/actualCard/ , method = GET
 {
@@ -87,8 +188,13 @@ return ActualCard likes
     ]
 ]
 ```
+</details>
 
-### AddComment
+### Comment
+
+<details>
+<summary>AddComment</summary>
+
 ```python
 # /comment , method = POST
 {
@@ -100,16 +206,4 @@ return ActualCard likes
 
 ```
 return "added" or "add failed"
-
-### updateCard
-```python
-# /update , method = PUT
-{
-    "Card_ID" : 1,    # storeCard ID 
-    "price" : 114514,
-    "status" : "still new",
-    "Quantity":999
-    # 至少包含 price status Quantity其中一項，未變更的可以不用加入
-}
-```
-return "store Card_ID not exist" or "updated"
+</details>
