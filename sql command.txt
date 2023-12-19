@@ -3,16 +3,6 @@ drop database testdb;
 create database testdb;
 use testDB;
 
-
-CREATE TABLE Order_List
-(
-  Order_ID INT NOT NULL,
-  Address VARCHAR(500),
-  Total_Price INT NOT NULL,
-  PRIMARY KEY (Order_ID),
-  FOREIGN KEY (User_ID) REFERENCES User(User_ID)
-);
-
 CREATE TABLE Shopping_Cart
 (
   Cart_ID INT NOT NULL,
@@ -50,8 +40,17 @@ CREATE TABLE User
   Order_ID INT NOT NULL,
   PRIMARY KEY (User_ID),
   FOREIGN KEY (Cart_ID) REFERENCES Shopping_Cart(Cart_ID),
-  FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID),
-  FOREIGN KEY (Order_ID) REFERENCES Order_List(Order_ID)
+  FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID)
+);
+
+CREATE TABLE Order_List
+(
+  Order_ID INT NOT NULL,
+  Address VARCHAR(500),
+  Total_Price INT NOT NULL,
+  User_ID INT NOT NULL,
+  PRIMARY KEY (Order_ID),
+  FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
 
 CREATE TABLE StoreCard
@@ -63,8 +62,8 @@ CREATE TABLE StoreCard
   ACCard_ID INT NOT NULL,
   Store_ID INT NOT NULL,
   PRIMARY KEY (Card_ID),
-  FOREIGN KEY (ACCard_ID) REFERENCES ActualCard(Card_ID),
-  FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID)
+  FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID),
+  FOREIGN KEY (ACCard_ID) REFERENCES ActualCard(Card_ID)
 );
 
 CREATE TABLE comment
@@ -102,15 +101,9 @@ CREATE TABLE Order_to_Card_Table
 -- Insert data into Store table
 INSERT INTO Store (Store_ID, Description, ModiefiedDate)
 VALUES (1, 'Happy Card Store', '2023-01-01'),
-       (2, 'Chage Store', '2023-02-15'),
+       (2, 'Change Store', '2023-02-15'),
        (3, 'Card Forever Store', '2023-03-20');
-       
--- Insert data into Order_List table
-INSERT INTO Order_List (Order_ID, Address, Total_Price)
-VALUES (101, '台北市中山區自立街123號', 500),
-       (102, '高雄市楠梓區仁愛路456號', 15),
-       (103, '桃園市中壢區中正路222號', 40);
-       
+             
 -- Insert data into Shopping_Cart table
 INSERT INTO Shopping_Cart (Cart_ID, Total_Price)
 VALUES (1, 500),
@@ -125,10 +118,16 @@ VALUES (1, '青眼白龍', '怪獸卡', '超猛飛龍毀滅一切', 'https://img
        (5, '貪欲之壺', '法術卡', '抽五張卡', 'https://imgur.com/a/pmltCFP');	
 
 -- Insert data into User table
-INSERT INTO User (User_ID, Email, User_Name, Password, IsManager, Cart_ID, Store_ID, Order_ID)
-VALUES (1, 'user1@example.com', 'User1', 'password1', 0, 1, 1, 101),
-       (2, 'user2@example.com', 'User2', 'password2', 0, 2, 2, 102),
-       (3, 'user3@example.com', 'User3', 'password3', 0, 3, 3, 103);
+INSERT INTO User (User_ID, Email, User_Name, Password, IsManager, Cart_ID, Store_ID)
+VALUES (1, 'user1@example.com', 'User1', 'password1', 0, 1, 1),
+       (2, 'user2@example.com', 'User2', 'password2', 0, 2, 2),
+       (3, 'user3@example.com', 'User3', 'password3', 0, 3, 3);
+
+-- Insert data into Order table
+INSERT INTO Order (Order_ID, Address, Total_Price, User_ID)
+VALUES (101, '台北市中山區自立街123號', 500,1),
+       (102, '高雄市楠梓區仁愛路456號', 15,2),
+       (103, '桃園市中壢區中正路222號', 40,3);
 
 -- Insert data into StoreCard table
 INSERT INTO StoreCard (Card_ID, Price, Status, Quantity, ACCard_ID)
@@ -141,12 +140,6 @@ VALUES (1, 500, '九成新狀態良好', 10, 1),
 
 -- Insert data into Card_to_Cart_TableID table
 INSERT INTO Card_to_Cart_TableID (Table_ID, Cart_ID, Card_ID)
-VALUES (1, 1, 1),
-       (2, 2, 2),
-       (3, 3, 3);
-
--- Insert data into Card_to_Store_Table table
-INSERT INTO Card_to_Store_Table (Table_ID, Store_ID, Card_ID)
 VALUES (1, 1, 1),
        (2, 2, 2),
        (3, 3, 3);
