@@ -55,17 +55,21 @@ return "User already exist" or "register success"
 ```python
 # /get/shoppingCart/ , method = GET
 {
-    "User_ID" : 1,
+    "User_ID" : 2,
     "page" : 1,
     "pageLimit" : 40
 }
 ```
-return likes
+return StoreCard in ShoppingCart likes
 ```python
 [
     [
-        1, # Cart_ID
-        500 # Total_price
+        2,          # store card id
+        15,         # price
+        "舊卡新賣", # status
+        20,         # quantity
+        2,          # actual Card ID
+        3           # store ID
     ]
 ]
 ```
@@ -74,7 +78,7 @@ return likes
 ### Store
 
 <details>
-<summary>GetStore</summary>
+<summary>GetStore(查詢store的所有 store Card)</summary>
 
 ```python
 # /get/store/ , method = GET
@@ -87,11 +91,22 @@ return likes
 return likes
 ```python
 [
-    [
-        1, # Store_ID
-        "Happy Card Store", # Description
-        "Sun, 01 Jan 2023 00:00:00 GMT" # ModiefiedDate
-    ]
+  [
+    3,              # Card_id
+    40,             # price
+    "九成新狀態良好",# status
+    15,             # quantity
+    3,              # actual Card ID
+    1               # store ID
+  ],
+  [
+    4,
+    500,
+    "九成新狀態良好",
+    10,
+    4,
+    1
+  ]
 ]
 ```
 </details>

@@ -1,4 +1,7 @@
 import mysql as sql
+
+# Store Card
+
 # 取得 storecard
 def searchCard(data:dict):
     cmd = f'''Select * from storeCard sc 
@@ -28,7 +31,9 @@ def updateCard(data:dict):
     sql.command(f"update storeCard set {','.join(condition)} where Card_ID = {data['Card_ID']}")
     return "updated"
 
-# 取得 ActualCard
+# Actual Card
+
+# 根據 ActualCard
 def GetActualCard(data:dict):
-    cmd = f"select * from ActualCard where Card_ID = {data['Card_ID']}"
+    cmd = f'''select * from ActualCard where Card_ID = {data['Card_ID']}'''
     return sql.command(cmd)
