@@ -151,6 +151,7 @@ return storeCard likes
 <summary>AddStoreCard</summary>
 
 ```python
+# /add/storeCard/ , method = POST
 {
     "price" : 100,
     "status" : "kinda new",
@@ -222,4 +223,32 @@ return ActualCard likes
 
 ```
 return "added" or "add failed"
+</details>
+
+### Order
+<details>
+<summary>GetOrder</summary>
+
+```python
+# /get/order , method = GET
+{
+    "Order_id" : 102,
+    "page" : 1,
+    "pageLimit" : 40
+}
+
+```
+return StoreCard likes
+```python
+[
+    [
+        5,
+        15,
+        "舊卡新賣",
+        20,
+        5,
+        2
+    ]
+]
+```
 </details>

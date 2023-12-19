@@ -1,10 +1,5 @@
 from flask import Flask, jsonify, request
-import structure.card as card
-import structure.cart as cart
-import structure.order as order
-import structure.store as store
-import structure.user as user
-import structure.comment as comment
+from structure import card,cart,order,store,user,comment
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -21,6 +16,9 @@ def GetMethod(path):
         result = cart.GetCart(request.get_json())
     elif path == "store":
         result = store.GetStore(request.get_json())
+    elif path == "order":
+        result = order.GetOrder(request.get_json())
+    
     return jsonify(result)
 
 @app.route('/login', methods=['GET'])
