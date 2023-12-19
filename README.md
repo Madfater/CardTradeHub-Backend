@@ -88,8 +88,9 @@ return likes
 ```python
 [
     [
-        1, # 
-        500 # Total_price
+        1, # Store_ID
+        "Happy Card Store", # Description
+        "Sun, 01 Jan 2023 00:00:00 GMT" # ModiefiedDate
     ]
 ]
 ```

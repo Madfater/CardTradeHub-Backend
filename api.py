@@ -1,5 +1,10 @@
 from flask import Flask, jsonify, request
-import mysql as sql
+import structure.card as card
+import structure.cart as cart
+import structure.order as order
+import structure.store as store
+import structure.user as user
+import structure.comment as comment
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -9,42 +14,37 @@ CORS(app)
 def GetMethod(path):
     result = None
     if path == "searchCard":
-        result = sql.searchCard(request.get_json())
+        result = card.searchCard(request.get_json())
     elif path == "actualCard":
-        result = sql.GetActualCard(request.get_json())
+        result = card.GetActualCard(request.get_json())
     elif path == "shoppingCart":
-        result = sql.GetCart(request.get_json())
+        result = cart.GetCart(request.get_json())
     elif path == "store":
-        result = sql.GetStore(request.get_json())
+        result = store.GetStore(request.get_json())
     return jsonify(result)
 
 @app.route('/login', methods=['GET'])
 def login():
-    return jsonify(sql.loginUser(request.get_json()))
+    return jsonify(user.loginUser(request.get_json()))
 
 @app.route('/register', methods=['POST'])
 def register():
-    result = sql.registerUser(request.get_json())
+    result = user.registerUser(request.get_json())
     return jsonify(result)
 
-@app.route('/add/comment', methods=['POST'])
-def AddMethod():
+@app.route('/add/<path>/', methods=['POST'])
+def AddMethod(path):
     result = None
     if path == "comment":
-        result = sql.AddComment(request.get_json())
+        result = comment.AddComment(request.get_json())
     elif path == "storeCard":
-        result = sql.AddCard(request.get_json())
+        result = card.AddCard(request.get_json())
     return jsonify(result)
 
 @app.route('/update', methods=['PUT'])
 def Update():
-    result = sql.updateCard(request.get_json())
+    result = card.updateCard(request.get_json())
     return jsonify(result)
-
-
-'''@app.route('/api/user')
-def renderHtml():
-    return render_template('home.html')'''
 
 if __name__ == '__main__':
     app.run(debug = True)

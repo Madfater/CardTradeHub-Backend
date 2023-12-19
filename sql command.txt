@@ -9,7 +9,8 @@ CREATE TABLE Order_List
   Order_ID INT NOT NULL,
   Address VARCHAR(500),
   Total_Price INT NOT NULL,
-  PRIMARY KEY (Order_ID)
+  PRIMARY KEY (Order_ID),
+  FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
 
 CREATE TABLE Shopping_Cart
@@ -60,8 +61,10 @@ CREATE TABLE StoreCard
   Status VARCHAR(100) NOT NULL,
   Quantity INT NOT NULL,
   ACCard_ID INT NOT NULL,
+  Store_ID INT NOT NULL,
   PRIMARY KEY (Card_ID),
-  FOREIGN KEY (ACCard_ID) REFERENCES ActualCard(Card_ID)
+  FOREIGN KEY (ACCard_ID) REFERENCES ActualCard(Card_ID),
+  FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID)
 );
 
 CREATE TABLE comment
@@ -86,15 +89,6 @@ CREATE TABLE Card_to_Cart_TableID
   FOREIGN KEY (Card_ID) REFERENCES StoreCard(Card_ID)
 );
 
-CREATE TABLE Card_to_Store_Table
-(
-  Table_ID INT NOT NULL,
-  Store_ID INT NOT NULL,
-  Card_ID INT NOT NULL,
-  PRIMARY KEY (Table_ID),
-  FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID),
-  FOREIGN KEY (Card_ID) REFERENCES StoreCard(Card_ID)
-);
 CREATE TABLE Order_to_Card_Table
 (
   Table_ID INT NOT NULL,
