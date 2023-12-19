@@ -3,8 +3,6 @@ drop database testdb;
 create database testdb;
 use testDB;
 
-
-
 CREATE TABLE Shopping_Cart
 (
   Cart_ID INT NOT NULL,
@@ -45,7 +43,7 @@ CREATE TABLE User
   FOREIGN KEY (Store_ID) REFERENCES Store(Store_ID)
 );
 
-CREATE TABLE Order
+CREATE TABLE Order_List
 (
   Order_ID INT NOT NULL,
   Address VARCHAR(500),
@@ -96,7 +94,7 @@ CREATE TABLE Order_to_Card_Table
   Order_ID INT NOT NULL,
   Card_ID INT NOT NULL,
   PRIMARY KEY (Table_ID),
-  FOREIGN KEY (Order_ID) REFERENCES Order(Order_ID),
+  FOREIGN KEY (Order_ID) REFERENCES Order_List(Order_ID),
   FOREIGN KEY (Card_ID) REFERENCES StoreCard(Card_ID)
 );
 
