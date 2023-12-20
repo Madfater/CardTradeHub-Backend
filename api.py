@@ -37,6 +37,8 @@ def AddMethod(path):
         result = comment.AddComment(request.get_json())
     elif path == "storeCard":
         result = card.AddCard(request.get_json())
+    elif path == "actualCard":
+        result = card.AddActualCard(request.get_json())
     return jsonify(result)
 
 @app.route('/update', methods=['PUT'])

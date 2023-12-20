@@ -207,6 +207,21 @@ return ActualCard likes
 ```
 </details>
 
+<details>
+<summary>AddActualCard</summary>
+
+```python
+# /add/actualCard/ , method = POST
+{
+    "name" : "nothing",
+    "catagory" : "dragon",
+    "description" : "destory enemy",
+    "imgPath" : "http"
+}
+```
+return "added"
+</details>
+
 ### Comment
 
 <details>
