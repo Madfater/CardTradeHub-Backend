@@ -31,9 +31,18 @@ def updateCard(data:dict):
     sql.command(f"update storeCard set {','.join(condition)} where Card_ID = {data['Card_ID']}")
     return "updated"
 
+
+
 # Actual Card
 
-# 根據 ActualCard
+# 查詢 ActualCard
 def GetActualCard(data:dict):
     cmd = f'''select * from ActualCard where Card_ID = {data['Card_ID']}'''
     return sql.command(cmd)
+
+# 增加 ActualCard
+def AddActualCard(data:dict):
+    id = sql.countTable("ActualCard") + 1
+    ActualCard_arg = [id, data['name'],data['catagory'],data['description'],data['imgPath']]
+    sql.command(sql.insert("ActualCard",ActualCard_arg))
+    return "added"
