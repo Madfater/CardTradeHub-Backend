@@ -11,7 +11,7 @@ db_settings = {
 }
 # insert dst:table名稱 
 def insert(dst:str, args:list):
-    return f"INSERT INTO {dst} VALUES{tuple(args)}"
+    return f"INSERT INTO {dst.capitalize()} VALUES{tuple(args)}"
 
 # 取得table內資料數
 def countTable(table:str):
@@ -21,6 +21,8 @@ def countTable(table:str):
 def command(waitting_command:str):
     try:
         conn = pymysql.connect(**db_settings)
+        print(conn)
+        
         with conn.cursor() as cursor:
             cursor.execute(waitting_command) # 執行SQL程式碼
             result = cursor.fetchall()

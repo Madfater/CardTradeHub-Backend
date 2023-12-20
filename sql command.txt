@@ -65,7 +65,7 @@ CREATE TABLE StoreCard
   FOREIGN KEY (ACCard_ID) REFERENCES ActualCard(Card_ID)
 );
 
-CREATE TABLE comment
+CREATE TABLE Comment
 (
   Comment_ID INT NOT NULL,
   Score INT NOT NULL,
@@ -149,8 +149,8 @@ VALUES (1, 101, 4),
        (2, 102, 5),
        (3, 103, 6);
 
--- Insert data into comment table
-INSERT INTO comment (Comment_ID, Score, Context, Store_ID, User_ID)
+-- Insert data into Comment table
+INSERT INTO Comment (Comment_ID, Score, Context, Store_ID, User_ID)
 VALUES (1, 5, '賣家出貨快', 1, 1),
        (2, 4, '優質卡片，卡片很新', 2, 2),
        (3, 3, '賣家態度不佳', 3, 3);

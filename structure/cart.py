@@ -9,7 +9,7 @@ def GetCart(data:dict):
     cmd += f" Limit {(data['page']-1)*data['pageLimit']},{data['pageLimit']}"
     return sql.command(cmd)
 
-# 加入store card到 shopping cart
+# 加入Store card到 shopping cart
 def AddCart(data:dict):
     id = sql.countTable("Card_to_Cart_TableID") + 1
     card_to_cart_arg = [id, data['Cart_ID'],data['Card_id']]
