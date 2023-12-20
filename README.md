@@ -247,7 +247,7 @@ return "ActualCard Card_ID not exist" or "updated"
 <summary>AddComment</summary>
 
 ```python
-# /comment , method = POST
+# /add/comment/ , method = POST
 {
     "score" : 5,
     "context" : "777",
