@@ -169,12 +169,12 @@ return "added"
 <summary>updateStoreCard</summary>
 
 ```python
-# /update , method = PUT
+# /update/storeCard/ , method = PUT
 {
     "Card_ID" : 1,    # storeCard ID 
-    "price" : 114514,
+    "price" : 114,
     "status" : "still new",
-    "Quantity":999
+    "Quantity":514
     # 至少包含 price status Quantity其中一項，未變更的可以不用加入
 }
 ```
@@ -221,6 +221,25 @@ return ActualCard likes
 ```
 return "added"
 </details>
+
+<details>
+<summary>updateActualCard</summary>
+
+```python
+# /update/actualCard/ , method = PUT
+{
+    "Card_ID" : 1,          # actual card id
+    "name" : "forest elf",
+    "catagory" : "elf",
+    "description":"send itself to the tomb",
+    "imgPath":"http:849898984"
+    # 至少包含 name catagory description imgPath 其中一項，未變更的可以不用加入
+}
+```
+return "ActualCard Card_ID not exist" or "updated"
+</details>
+
+
 
 ### Comment
 

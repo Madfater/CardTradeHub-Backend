@@ -4,13 +4,9 @@ from datetime import datetime
 # 資料輸入順序
 User_order = ["email","username","password"]
 
-# 檢查user有無註冊過 用email檢查
-def checkRegistered(email:str):
-    return sql.command(f"Select Count(*) From user where email = '{email}'")[0][0] != 0
-
 # 註冊user
 def registerUser(data:dict):
-    if checkRegistered(data['email']):
+    if sql.countTable(f"user where email = '{data['email']}'") != 0:
         return "User already exist"
     id = sql.countTable("user") + 1
     user_arg = [id]+[data[k] for k in User_order]+[0]+[id]*3
@@ -25,8 +21,8 @@ def registerUser(data:dict):
 
 # 登陸user
 def loginUser(data):
-    if not checkRegistered(data['email']):
-        return "this email isn\'t register yet"
+    if sql.countTable(f"user where email = '{data['email']}'") == 0:
+        return "this email isn't register yet"
     cmd = "Select password from user where email = "+ f"'{data['email']}'"
     acuratePassword = sql.command(cmd)[0][0]
     return "login success" if data['password'] == acuratePassword else "login failed"
