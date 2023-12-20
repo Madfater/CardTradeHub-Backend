@@ -23,7 +23,7 @@ def AddCard(data:dict):
 
 # 更新 storeCard
 def updateCard(data:dict):
-    if sql.command(f"select count(*) from storeCard where Card_ID = {data['Card_ID']}")[0][0] == 0:
+    if sql.countTable(f"storeCard where Card_ID = {data['Card_ID']}") == 0:
         return "store Card_ID not exist"
     condition = [f"price = {data['price']}"] if data.get('price') != None else []
     condition += [f"status = '{data['status']}'"] if data.get('status') != None else []
@@ -49,7 +49,7 @@ def AddActualCard(data:dict):
 
 # 更新 ActualCard
 def updateActualCard(data:dict):
-    if sql.command(f"select count(*) from ActualCard where Card_ID = {data['Card_ID']}")[0][0] == 0:
+    if sql.countTable(f"ActualCard where Card_ID = {data['Card_ID']}") == 0:
         return "ActualCard Card_ID not exist"
     condition = [f"name = '{data['name']}'"] if data.get('name') != None else []
     condition += [f"catagory = '{data['catagory']}'"] if data.get('catagory') != None else []
