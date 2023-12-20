@@ -41,9 +41,12 @@ def AddMethod(path):
         result = card.AddActualCard(request.get_json())
     return jsonify(result)
 
-@app.route('/update', methods=['PUT'])
-def Update():
-    result = card.updateCard(request.get_json())
+@app.route('/update/<path>/', methods=['PUT'])
+def Update(path):
+    if path == "storeCard":
+        result = card.updateCard(request.get_json())
+    elif path == "actualCard":
+        result = card.updateActualCard(request.get_json())
     return jsonify(result)
 
 if __name__ == '__main__':
