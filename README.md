@@ -181,6 +181,20 @@ return "added"
 return "store Card_ID not exist" or "updated"
 </details>
 
+<details>
+<summary>RemoveCard</summary>
+
+```python
+# /remove/storeCard/ , method = DELETE
+{
+    "User_ID" : 2,
+    "Card_ID" : 1
+}
+```
+return "added"
+</details>
+
+
 
 ### Actual Card
 
