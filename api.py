@@ -50,6 +50,8 @@ def Update(path):
         result = card.updateCard(request.get_json())
     elif path == "actualCard":
         result = card.updateActualCard(request.get_json())
+    elif path == "comment":
+        result = comment.updateComment(request.get_json())
     return jsonify(result)
 
 @app.route('/remove/<path>/', methods=['DELETE'])
@@ -57,6 +59,12 @@ def Remove(path):
     result = None
     if path == "storeCard":
         result = card.removeCard(request.get_json())
+    elif path == "comment":
+        result = comment.removeComment(request.get_json())
+    elif path == "shoppingCart":
+        result = cart.removeCardFromCart(request.get_json())
+    elif path == "actualCard":
+        result = cart.removeCardFromCart(request.get_json())
     return jsonify(result)
 
 if __name__ == '__main__':

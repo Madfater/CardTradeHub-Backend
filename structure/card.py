@@ -65,3 +65,10 @@ def updateActualCard(data:dict):
     condition += [f"imgPath = '{data['imgPath']}'"] if data.get('imgPath') != None else []
     sql.command(f"update ActualCard set {','.join(condition)} where ID = {data['Card_ID']}")
     return "updated"
+
+# remove Actual Card
+def removeActualCard(data:dict):
+    if sql.countTable(f"ActualCard where ID = {data['Card_ID']}") == 0:
+        return "ActualCard ID not exist"
+    sql.command(f"Delete from ActualCard where ID = {data['Card_ID']}")
+    return "removed"
