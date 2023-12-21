@@ -6,7 +6,6 @@ use testDB;
 CREATE TABLE Shopping_Cart
 (
   ID INT NOT NULL,
-  Total_Price INT NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -77,9 +76,10 @@ CREATE TABLE Comment
   FOREIGN KEY (User_ID) REFERENCES User(ID)
 );
 
-CREATE TABLE Card_to_Cart_TableID
+CREATE TABLE Card_to_Cart_Table
 (
   ID INT NOT NULL,
+  Quantity INT NOT NULL,
   Cart_ID INT NOT NULL,
   Card_ID INT NOT NULL,
   PRIMARY KEY (ID),
@@ -90,6 +90,7 @@ CREATE TABLE Card_to_Cart_TableID
 CREATE TABLE Order_to_Card_Table
 (
   ID INT NOT NULL,
+  Quantity INT NOT NULL,
   Order_ID INT NOT NULL,
   Card_ID INT NOT NULL,
   PRIMARY KEY (ID),
@@ -104,10 +105,10 @@ VALUES (1, 'Happy Card Store', '2023-01-01'),
        (3, 'Card Forever Store', '2023-03-20');
              
 -- Insert data into Shopping_Cart table
-INSERT INTO Shopping_Cart (ID, Total_Price)
-VALUES (1, 500),
-       (2, 15),
-       (3, 40);
+INSERT INTO Shopping_Cart (ID)
+VALUES (1),
+       (2),
+       (3);
 -- Insert data into ActualCard table
 INSERT INTO ActualCard (ID, Name, Catagory, Description, imgPath)
 VALUES (1, '青眼白龍', '怪獸卡', '超猛飛龍毀滅一切', 'https://imgur.com/a/2FFGPMs'),
@@ -137,17 +138,17 @@ VALUES (1, 500, '九成新狀態良好', 10, 1, 2),
        (5, 15, '舊卡新賣', 20, 5, 2),
        (6, 40, '九成新狀態良好', 15, 2, 3);
 
--- Insert data into Card_to_Cart_TableID table
-INSERT INTO Card_to_Cart_TableID (ID, Cart_ID, Card_ID)
-VALUES (1, 1, 1),
-       (2, 2, 2),
-       (3, 3, 3);
+-- Insert data into Card_to_Cart_Table table
+INSERT INTO Card_to_Cart_Table (ID, Quantity, Cart_ID, Card_ID)
+VALUES (1, 2, 1, 1),
+       (2, 3, 2, 2),
+       (3, 4, 3, 3);
 
 -- Insert data into Order_to_Card_Table table
-INSERT INTO Order_to_Card_Table (ID, Order_ID, Card_ID)
-VALUES (1, 101, 4),
-       (2, 102, 5),
-       (3, 103, 6);
+INSERT INTO Order_to_Card_Table (ID,Quantity, Order_ID, Card_ID)
+VALUES (1, 4, 101, 4),
+       (2, 3, 102, 5),
+       (3, 2, 103, 6);
 
 -- Insert data into Comment table
 INSERT INTO Comment (ID, Score, Context, Store_ID, User_ID)
