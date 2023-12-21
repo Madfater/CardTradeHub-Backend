@@ -40,7 +40,7 @@ def AddMethod(path):
     elif path == "actualCard":
         result = card.AddActualCard(request.get_json())
     elif path == "shoppingCart":
-        result = card.AddCart(request.get_json())
+        result = card.AddCardToCart(request.get_json())
     return jsonify(result)
 
 @app.route('/update/<path>/', methods=['PUT'])
