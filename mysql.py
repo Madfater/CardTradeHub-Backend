@@ -19,7 +19,10 @@ def countTable(table:str):
 
 # 生成id
 def getMaxId(table:str):
-    return command(f"select MAX(ID) from {table}")[0][0]
+    Id = command(f"Select MAX(ID) From {table}")[0][0]
+    if Id == None:
+        return 0
+    return Id
 
 # 執行操作
 def command(waitting_command:str):
