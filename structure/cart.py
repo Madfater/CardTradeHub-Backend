@@ -10,7 +10,7 @@ def GetCart(data:dict):
     return sql.command(cmd)
 
 # 加入Store card到 shopping cart
-def AddCart(data:dict):
+def AddCardToCart(data:dict):
     id = sql.getMaxId("Card_to_Cart_TableID") + 1
     card_to_cart_arg = [id, data['Cart_ID'],data['Card_id']]
     sql.command(sql.insert("Card_to_Cart_TableID",card_to_cart_arg))
