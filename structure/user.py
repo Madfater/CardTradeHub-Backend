@@ -8,7 +8,7 @@ User_order = ["email","username","password"]
 def registerUser(data:dict):
     if sql.countTable(f"User where Email = '{data['email']}'") != 0:
         return "User already exist"
-    id = sql.countTable("User") + 1
+    id = sql.getMaxId("User") + 1
     User_arg = [id]+[data[k] for k in User_order]+[0]+[id]*2
     store_arg = [id,"empty",str(datetime.today().date())]
     order_arg = [id,"empty",0,id]

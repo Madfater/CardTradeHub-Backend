@@ -45,10 +45,18 @@ def AddMethod(path):
 
 @app.route('/update/<path>/', methods=['PUT'])
 def Update(path):
+    result = None
     if path == "storeCard":
         result = card.updateCard(request.get_json())
     elif path == "actualCard":
         result = card.updateActualCard(request.get_json())
+    return jsonify(result)
+
+@app.route('/remove/<path>/', methods=['DELETE'])
+def Remove(path):
+    result = None
+    if path == "storeCard":
+        result = card.removeCard(request.get_json())
     return jsonify(result)
 
 if __name__ == '__main__':
