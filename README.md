@@ -191,7 +191,7 @@ return "store Card_ID not exist" or "updated"
     "Card_ID" : 1
 }
 ```
-return "added"
+return "removed" or "no access" or "Card ID not exist"
 </details>
 
 

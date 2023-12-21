@@ -34,13 +34,13 @@ def updateCard(data:dict):
 # 下架 StoreCard
 def removeCard(data:dict):
     if sql.countTable(f"StoreCard where ID = {data['Card_ID']}") == 0:
-        return "Store ID not exist"
+        return "Card ID not exist"
     if sql.command(f"select Store_ID from StoreCard where ID =  {data['Card_ID']}")[0][0] != data['User_ID']:
         return "no access"
     sql.command(f"DELETE FROM Order_to_Card_Table WHERE Card_ID = {data['Card_ID']}")
     sql.command(f"DELETE FROM Card_to_Cart_TableID WHERE Card_ID = {data['Card_ID']}")
     sql.command(f"DELETE FROM StoreCard WHERE ID = {data['Card_ID']}")
-    return ""
+    return "removed"
 # Actual Card
 
 # 查詢 ActualCard
