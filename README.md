@@ -34,7 +34,7 @@ return "login success" or "login failed"
 
 
 <details>
-<summary>register</summary>
+<summary>register test ok</summary> 
 
 ```python
 # /register , method = POST
@@ -73,6 +73,20 @@ return StoreCard in ShoppingCart likes
     ]
 ]
 ```
+</details>
+
+<details>
+<summary>AddCardToShoppingCart</summary>
+
+
+```python
+# /Add/cardToShoppingCart , method = POST
+{
+    "User_ID" : 2,
+    "Card_ID" : 2
+}
+```
+return "added"
 </details>
 
 ### Store
@@ -148,7 +162,7 @@ return storeCard likes
 
 
 <details>
-<summary>AddStoreCard</summary>
+<summary>AddStoreCard test ok</summary>
 
 ```python
 # /add/storeCard/ , method = POST
@@ -222,7 +236,7 @@ return ActualCard likes
 </details>
 
 <details>
-<summary>AddActualCard</summary>
+<summary>AddActualCard testok</summary>
 
 ```python
 # /add/actualCard/ , method = POST
@@ -258,7 +272,7 @@ return "ActualCard Card_ID not exist" or "updated"
 ### Comment
 
 <details>
-<summary>AddComment</summary>
+<summary>AddComment test ok</summary>
 
 ```python
 # /add/comment/ , method = POST

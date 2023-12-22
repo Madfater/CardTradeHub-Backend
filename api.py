@@ -21,29 +21,29 @@ def GetMethod(path):
     
     return jsonify(result)
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET']) # testOK
 def login():
     return jsonify(user.loginUser(request.get_json()))
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['POST']) # testOK
 def register():
     result = user.registerUser(request.get_json())
     return jsonify(result)
 
-@app.route('/add/<path>/', methods=['POST'])
+@app.route('/add/<path>', methods=['POST'])
 def AddMethod(path):
     result = None
-    if path == "comment":
+    if path == "comment": # testOK
         result = comment.AddComment(request.get_json())
-    elif path == "storeCard":
+    elif path == "storeCard": # testOK
         result = card.AddCard(request.get_json())
-    elif path == "actualCard":
+    elif path == "actualCard": # testOK
         result = card.AddActualCard(request.get_json())
-    elif path == "shoppingCart":
+    elif path == "cardToShoppingCart": # testOK
         result = card.AddCardToCart(request.get_json())
     return jsonify(result)
 
-@app.route('/update/<path>/', methods=['PUT'])
+@app.route('/update/<path>', methods=['PUT'])
 def Update(path):
     result = None
     if path == "storeCard":
@@ -54,7 +54,7 @@ def Update(path):
         result = comment.updateComment(request.get_json())
     return jsonify(result)
 
-@app.route('/remove/<path>/', methods=['DELETE'])
+@app.route('/remove/<path>', methods=['DELETE'])
 def Remove(path):
     result = None
     if path == "storeCard":
