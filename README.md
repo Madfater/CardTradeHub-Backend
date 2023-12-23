@@ -19,25 +19,10 @@ Python套件記得裝
 ## request json format
 ### User
 <details>
-<summary>login</summary>
+<summary>register</summary> 
 
 ```python
-# /login , method = GET
-{
-    "email": "123@gmail.com",
-    "password": "passwd"
-}
-```
-return "login success" or "login failed"
-</details>
-
-
-
-<details>
-<summary>register test ok</summary> 
-
-```python
-# /register , method = POST
+# /user/register , method = POST
 {
     "password": "passwd",
     "username": "alan",
@@ -47,181 +32,195 @@ return "login success" or "login failed"
 return "User already exist" or "register success"
 </details>
 
+
+<details>
+<summary>login</summary>
+
+```python
+# /user/login , method = POST
+{
+    "email": "123@gmail.com",
+    "password": "passwd"
+}
+```
+return "login success" or "login failed" or "this email isn't register yet"
+</details>
+
+
 ### Shopping Cart
 
 <details>
-<summary>GetShoppingCart</summary>
+<summary>check ShoppingCart (default)</summary>
 
 ```python
-# /get/shoppingCart/ , method = GET
-{
-    "User_ID" : 2,
-    "page" : 1,
-    "pageLimit" : 40
-}
+# /cart/user_id=(填入user的ID) , method = GET
+# ex: /cart/user_id=1
+
 ```
 return StoreCard in ShoppingCart likes
 ```python
-[
+{
+  "items": [
     [
-        2,          # store card id
-        15,         # price
-        "舊卡新賣", # status
-        20,         # quantity
-        2,          # actual Card ID
-        3           # store ID
+      1,
+      500,
+      "九成新狀態良好",
+      10,
+      1,
+      2
     ]
-]
+  ],
+  "total_page": 1
+}
 ```
 </details>
 
 <details>
-<summary>AddCardToShoppingCart</summary>
+<summary>check ShoppingCart</summary>
+
+```python
+# /cart/user_id=XXXXXXXX(int)&page=X(int) , method = GET
+# ex:/cart/user_id=1&page=1
+# 每頁上限目前預設為 30
+```
+return StoreCard in ShoppingCart likes
+```python
+{
+  "items": [
+    [
+      1,
+      500,
+      "九成新狀態良好",
+      10,
+      1,
+      2
+    ]
+  ],
+  "total_page": 1
+}
+```
+</details>
+
+<details>
+<summary>Add Card To ShoppingCart</summary>
 
 
 ```python
-# /Add/cardToShoppingCart , method = POST
-{
-    "User_ID" : 2,
-    "Card_ID" : 2
-}
+# /cart/add/user_id=&card_id=<int:card_id> , method = POST
+# ex:/cart/add/user_id=1&card_id=2
 ```
-return "added"
+return "User not found" or "Card not found" or "added"
 </details>
+
+<details>
+<summary>remove Card from ShoppingCart</summary>
+
+
+```python
+# /cart/remove/user_id=&card_id=<int:card_id> , method = DELETE
+# ex:/cart/remove/user_id=1&card_id=2 
+```
+return "User not found" or "Card not found" or "Card not in shopping cart" or "removed"
+</details>
+
+
 
 ### Store
 
 <details>
-<summary>GetStore(查詢store的所有 store Card)</summary>
+<summary>check Store (查詢store的所有 store Card) (default)</summary>
 
 ```python
-# /get/store/ , method = GET
+# /store/id=<int:store_id> , method = GET
+# ex:/store/id=1
+# 每頁上限目前預設為 30
+```
+return likes
+```python
 {
-    "Store_ID" : 1,
-    "page" : 1,
-    "pageLimit" : 40
+    "items": [
+        [
+            3,                          # Card_id
+            40,                         # price
+            "九成新狀態良好",            # status
+            15,                         # quantity
+            1,                          # actual card id
+            "死者復甦",                  # name
+            "法術卡",                    # catagory
+            "復活墓地一隻怪獸卡到場上",    # description
+            "https://imgur.com/a/CYPu9TG"# imgPath
+        ],
+        [
+            4,
+            500,
+            "九成新狀態良好",
+            10,
+            1,
+            "神聖彗星反射力量",
+            "陷阱卡",
+            "反射法術",
+            "https://imgur.com/a/Dd7OHBt"
+        ]
+    ],
+    "total_page": 1
+}
+```
+</details>
+
+<details>
+<summary>check Store (查詢store的所有 store Card)</summary>
+
+```python
+# /store/id=<int:store_id>&page=<int:page> , method = POST
+# ex:/store/id=1&page=1
+# 每頁上限目前預設為 30
+{
+    "orderWay" : "id",  # 選項 : id, price, quantity
+    "ascending" : true # true為正序
 }
 ```
 return likes
 ```python
-[
-  [
-    3,              # Card_id
-    40,             # price
-    "九成新狀態良好",# status
-    15,             # quantity
-    3,              # actual Card ID
-    1               # store ID
-  ],
-  [
-    4,
-    500,
-    "九成新狀態良好",
-    10,
-    4,
-    1
-  ]
-]
-```
-</details>
-
-### Store Card
-
-<details>
-<summary>searchCard (store Card)</summary>
-
-```python
-# /get/searchCard/ , method = GET
 {
-    "param" : "一",         # 搜尋關鍵字
-    "page" : 1,
-    "pageLimit" : 40
-}
-```
-return storeCard likes
-```python
-[
-    [
-        1,                  # CardID
-        500,                # price
-        "九成新狀態良好",    # status
-        10,                 # quantity
-        1                   # ACCard_ID
+    "items": [
+        [
+            3,                          # Card_id
+            40,                         # price
+            "九成新狀態良好",            # status
+            15,                         # quantity
+            1,                          # actual card id
+            "死者復甦",                  # name
+            "法術卡",                    # catagory
+            "復活墓地一隻怪獸卡到場上",    # description
+            "https://imgur.com/a/CYPu9TG"# imgPath
+        ],
+        [
+            4,
+            500,
+            "九成新狀態良好",
+            10,
+            1,
+            "神聖彗星反射力量",
+            "陷阱卡",
+            "反射法術",
+            "https://imgur.com/a/Dd7OHBt"
+        ]
     ],
-    [
-        2,
-        15,
-        "舊卡新賣",
-        20,
-        2
-    ]
-]
-```
-</details>
-
-
-
-<details>
-<summary>AddStoreCard test ok</summary>
-
-```python
-# /add/storeCard/ , method = POST
-{
-    "price" : 100,
-    "status" : "kinda new",
-    "quantity" : 10,
-    "ACCard_ID" : 1,
-    "Store_ID" : 1
+    "total_page": 1
 }
 ```
-return "added"
 </details>
-
-
-
-<details>
-<summary>updateStoreCard</summary>
-
-```python
-# /update/storeCard/ , method = PUT
-{
-    "Card_ID" : 1,    # storeCard ID 
-    "price" : 114,
-    "status" : "still new",
-    "Quantity":514
-    # 至少包含 price status Quantity其中一項，未變更的可以不用加入
-}
-```
-return "store Card_ID not exist" or "updated"
-</details>
-
-<details>
-<summary>RemoveCard</summary>
-
-```python
-# /remove/storeCard/ , method = DELETE
-{
-    "User_ID" : 2,
-    "Card_ID" : 1
-}
-```
-return "removed" or "no access" or "Card ID not exist"
-</details>
-
-
 
 ### Actual Card
 
 <details>
-<summary>GetActualCard</summary>
+<summary>check ActualCard</summary>
 
 ```python
-# /get/actualCard/ , method = GET
-{
-    "Card_ID" : 1           # ACCard_ID from storeCard
-}
+# /actualCard/id=<int:card_id> , method = GET
+# ex: /actualCard/id=1
 ```
-return ActualCard likes
+return "Card not found" or return ActualCard likes
 ```python
 [
     [
@@ -236,10 +235,10 @@ return ActualCard likes
 </details>
 
 <details>
-<summary>AddActualCard testok</summary>
+<summary>Add ActualCard</summary>
 
 ```python
-# /add/actualCard/ , method = POST
+# /actualCard/add , method = POST
 {
     "name" : "nothing",
     "catagory" : "dragon",
@@ -251,66 +250,121 @@ return "added"
 </details>
 
 <details>
-<summary>updateActualCard</summary>
+<summary>update ActualCard</summary>
 
 ```python
-# /update/actualCard/ , method = PUT
+# /actualCard/update/id=<int:card_id> , method = PUT
+# ex:/actualCard/update/id=1
 {
-    "Card_ID" : 1,          # actual card id
     "name" : "forest elf",
     "catagory" : "elf",
     "description":"send itself to the tomb",
     "imgPath":"http:849898984"
-    # 至少包含 name catagory description imgPath 其中一項，未變更的可以不用加入
+    # 至少包含 name catagory description imgPath 其中一項
 }
 ```
-return "ActualCard Card_ID not exist" or "updated"
+return "Card not found" or "updated"
 </details>
 
+<details>
+<summary>remove ActualCard</summary>
+
+```python
+# /actualCard/remove/id=<int:card_id> , method = DELETE
+# ex:/actualCard/remove/id=1
+```
+return "Card not found" or "removed"
+</details>
 
 
 ### Comment
 
 <details>
-<summary>AddComment test ok</summary>
+<summary>check comment from store (default)</summary>
 
 ```python
-# /add/comment/ , method = POST
+# /comment/store_id=<int:store_id> , method = GET
+# ex:/comment/store_id=1 
+```
+return "Store not found" or return comment likes
+```python
+{
+    "items": [
+        [
+            1,          # comment id
+            5,          # score
+            "賣家出貨快",# context
+            1           # user id
+        ]
+    ],
+    "total_page": 1
+}
+```
+</details>
+
+### Comment
+
+<details>
+<summary>check comment from store</summary>
+
+```python
+# /comment/store_id=<int:store_id>&page=<int:page> , method = GET
+# ex:/comment/store_id=1&page=1
+```
+return "Store not found" or return comment likes
+```python
+{
+    "items": [
+        [
+            1,          # comment id
+            5,          # score
+            "賣家出貨快",# context
+            1           # user id
+        ]
+    ],
+    "total_page": 1
+}
+```
+</details>
+
+<details>
+<summary>Add Comment</summary>
+
+```python
+# /comment/add/store_id=<int:store_id> , method = POST
+# /comment/add/store_id=1
 {
     "score" : 5,
     "context" : "777",
-    "store_id" : 2,
     "user_id":1
 }
 
 ```
-return "added" or "add failed"
+return "Store not found" or "User not found" or "added"
 </details>
 
-### Order
 <details>
-<summary>GetOrder</summary>
+<summary>update Comment</summary>
 
 ```python
-# /get/order , method = GET
+# /comment/update/id=<int:comment_id> , method = PUT
+# /comment/update/id=1
 {
-    "Order_id" : 102,
-    "page" : 1,
-    "pageLimit" : 40
+    "score" : 5,
+    "context" : "777"
+    # 至少包含 score context 其中一項
 }
 
 ```
-return StoreCard likes
+return "Comment not found" or "updated"
+</details>
+
+<details>
+<summary>remove Comment</summary>
+
 ```python
-[
-    [
-        5,
-        15,
-        "舊卡新賣",
-        20,
-        5,
-        2
-    ]
-]
+# /comment/remove/id=<int:comment_id> , method = DELETE
+# /comment/remove/id=1
 ```
+return "Comment not found" or "removed"
 </details>

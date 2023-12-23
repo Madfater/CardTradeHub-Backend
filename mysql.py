@@ -11,6 +11,8 @@ db_settings = {
 }
 # insert dst:table名稱 
 def insert(dst:str, args:list):
+    if len(args) == 1:
+        return f"INSERT INTO {dst.capitalize()} VALUES({args[0]})"
     return f"INSERT INTO {dst.capitalize()} VALUES{tuple(args)}"
 
 # 取得table內資料數
@@ -34,5 +36,5 @@ def command(waitting_command:str):
             conn.commit()
             return result # 輸出
     except Exception as ex:
-        print("Exception: occur in execute following command", waitting_command)
+        print("Exception: occur in execute following command:", waitting_command)
         return False
