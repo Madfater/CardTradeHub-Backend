@@ -302,8 +302,6 @@ return "Store not found" or return comment likes
 ```
 </details>
 
-### Comment
-
 <details>
 <summary>check comment from store</summary>
 
