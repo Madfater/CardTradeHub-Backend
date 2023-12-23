@@ -53,7 +53,7 @@ return "login success" or "login failed" or "this email isn't register yet"
 <summary>check ShoppingCart (default)</summary>
 
 ```python
-# /cart/user_id=(填入user的ID) , method = GET
+# /cart/user_id=<int:user_id> , method = GET
 # ex: /cart/user_id=1
 
 ```
@@ -79,7 +79,7 @@ return StoreCard in ShoppingCart likes
 <summary>check ShoppingCart</summary>
 
 ```python
-# /cart/user_id=XXXXXXXX(int)&page=X(int) , method = GET
+# /cart/user_id=<int:user_id>&page=<int:page> , method = GET
 # ex:/cart/user_id=1&page=1
 # 每頁上限目前預設為 30
 ```
