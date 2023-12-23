@@ -13,7 +13,7 @@ def Register(data:dict):
     store_arg = [id,"empty",str(datetime.today().date())]
     shopping_cart_arg = [id]
     sql.command(sql.insert("Store",store_arg))
-    sql.command(sql.insert("Shopping_Cart",shopping_cart_arg))
+    sql.command(sql.insert("Shopping_cart",shopping_cart_arg))
     sql.command(sql.insert("User",User_arg))
     return "register success"
 
