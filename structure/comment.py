@@ -13,23 +13,23 @@ def lookComment(store_id:int,page:int = 1,pageLimit:int = 30):
     return output
 
 # 增加評論
-def AddComment(store_id:int ,data:dict):
-    if sql.countTable(f"Store where ID = {store_id}") == 0:
+def AddComment(data:dict):
+    if sql.countTable(f"Store where ID = {data['store_id']}") == 0:
         return "Store not found"
     if sql.countTable(f"User where ID = {data['user_id']}") == 0:
         return "User not found"
     id = sql.getMaxId("Comment") + 1
-    Comment_arg = [id,data['score'],data['context'], store_id, data['user_id']]
+    Comment_arg = [id,data['score'],data['context'], data['store_id'], data['user_id']]
     sql.command(sql.insert("Comment",Comment_arg))
     return "added"
 
 # update comment
-def updateComment(comment_id:int, data:dict):
-    if sql.countTable(f"Comment where ID = {comment_id}") == 0:
+def updateComment(data:dict):
+    if sql.countTable(f"Comment where ID = {data['comment_id']}") == 0:
         return "Comment not found"
     condition = [f"Score = {data['score']}"] if data.get('score') != None else []
     condition += [f"Context = '{data['context']}'"] if data.get('context') != None else []
-    sql.command(f"update Comment set {','.join(condition)} where ID = {comment_id}")
+    sql.command(f"update Comment set {','.join(condition)} where ID = {data['comment_id']}")
     return "updated"
 
 # delete comment

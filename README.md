@@ -183,9 +183,9 @@ return "added"
 <summary>update ActualCard</summary>
 
 ```python
-# /actualCard/update?id=<int:card_id> , method = PUT
-# ex:/actualCard/update?id=1
+# /actualCard/update , method = PUT
 {
+    "card_id" : 1,
     "name" : "forest elf",
     "catagory" : "elf",
     "description":"send itself to the tomb",
@@ -237,9 +237,9 @@ return "Store not found" or return comment likes
 <summary>Add Comment</summary>
 
 ```python
-# /comment/add?store_id=<int:store_id> , method = POST
-# /comment/add?store_id=1
+# /comment/add , method = POST
 {
+    "store_id":1,
     "score" : 5,
     "context" : "777",
     "user_id":1
@@ -253,9 +253,9 @@ return "Store not found" or "User not found" or "added"
 <summary>update Comment</summary>
 
 ```python
-# /comment/update?id=<int:comment_id> , method = PUT
-# /comment/update?id=1
+# /comment/update , method = PUT
 {
+    "comment_id" : 1
     "score" : 5,
     "context" : "777"
     # 至少包含 score context 其中一項
@@ -308,9 +308,9 @@ return "Order not found" or return Order likes
 <summary>add Order</summary>
 
 ```python
-# /order/add?user_id=<int:user_id> , method = POST
-# ex: /order?id=101&page=1
+# /order/add , method = POST
 {
+    "user_id":1,
     "address":"",
     "items":{
         "2":1,
@@ -393,9 +393,9 @@ return "no results" or return StoreCard likes
 <summary>add StoreCard</summary>
 
 ```python
-# /card/add?store_id=<str:store_id> , method = POST
-# ex: /card/add?store_id=1
+# /card/add , method = POST
 {
+    "store_id" : 1,
     "price":10,
     "status":"9成新",
     "quantity":4,
@@ -409,9 +409,9 @@ return storeCard_ID or "Store not found"
 <summary>update StoreCard</summary>
 
 ```python
-# /card/add?store_id=<str:store_id> , method = POST
-# ex: /card/add?store_id=1
+# /card/update , method = POST
 {
+    "store_id" : 1,
     "price":10,
     "status":"9成新",
     "quantity":4
@@ -425,9 +425,9 @@ return "Card not found" or "no access" or "updated"
 <summary>remove StoreCard</summary>
 
 ```python
-# /card/remove?id=<str:store_id> , method = POST
-# ex: /card/remove?id=1
+# /card/remove , method = POST
 {
+    "card_id":1,
     "user_id":1
 }
 ```
