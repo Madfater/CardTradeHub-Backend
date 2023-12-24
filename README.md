@@ -43,57 +43,31 @@ return "User already exist" or "register success"
     "password": "passwd"
 }
 ```
-return "login success" or "login failed" or "this email isn't register yet"
+return User ID or "login failed" or "this email isn't register yet"
 </details>
 
 
 ### Shopping Cart
 
 <details>
-<summary>check ShoppingCart (default)</summary>
-
-```python
-# /cart/user_id=<int:user_id> , method = GET
-# ex: /cart/user_id=1
-
-```
-return StoreCard in ShoppingCart likes
-```python
-{
-  "items": [
-    [
-      1,
-      500,
-      "九成新狀態良好",
-      10,
-      1,
-      2
-    ]
-  ],
-  "total_page": 1
-}
-```
-</details>
-
-<details>
 <summary>check ShoppingCart</summary>
 
 ```python
-# /cart/user_id=<int:user_id>&page=<int:page> , method = GET
+# /cart?user_id=<int:user_id> , method = GET
+# params可選包括 page (int), pageLimit (int)
 # ex:/cart/user_id=1&page=1
-# 每頁上限目前預設為 30
 ```
 return StoreCard in ShoppingCart likes
 ```python
 {
   "items": [
     [
-      1,
-      500,
-      "九成新狀態良好",
-      10,
-      1,
-      2
+      1,               # store card id
+      500,             # store card price
+      "九成新狀態良好", # store card status
+      10,              # store card quantity
+      1,               # actual card id
+      2                # store id
     ]
   ],
   "total_page": 1
@@ -106,8 +80,8 @@ return StoreCard in ShoppingCart likes
 
 
 ```python
-# /cart/add/user_id=&card_id=<int:card_id> , method = POST
-# ex:/cart/add/user_id=1&card_id=2
+# /cart/add?user_id=&card_id=<int:card_id> , method = POST
+# ex:/cart/add?user_id=1&card_id=2
 ```
 return "User not found" or "Card not found" or "added"
 </details>
@@ -117,8 +91,8 @@ return "User not found" or "Card not found" or "added"
 
 
 ```python
-# /cart/remove/user_id=&card_id=<int:card_id> , method = DELETE
-# ex:/cart/remove/user_id=1&card_id=2 
+# /cart/remove?user_id=&card_id=<int:card_id> , method = DELETE
+# ex:/cart/remove?user_id=1&card_id=2 
 ```
 return "User not found" or "Card not found" or "Card not in shopping cart" or "removed"
 </details>
@@ -128,56 +102,12 @@ return "User not found" or "Card not found" or "Card not in shopping cart" or "r
 ### Store
 
 <details>
-<summary>check Store (查詢store的所有 store Card) (default)</summary>
-
-```python
-# /store/id=<int:store_id> , method = GET
-# ex:/store/id=1
-# 每頁上限目前預設為 30
-```
-return likes
-```python
-{
-    "items": [
-        [
-            3,                          # Card_id
-            40,                         # price
-            "九成新狀態良好",            # status
-            15,                         # quantity
-            1,                          # actual card id
-            "死者復甦",                  # name
-            "法術卡",                    # catagory
-            "復活墓地一隻怪獸卡到場上",    # description
-            "https://imgur.com/a/CYPu9TG"# imgPath
-        ],
-        [
-            4,
-            500,
-            "九成新狀態良好",
-            10,
-            1,
-            "神聖彗星反射力量",
-            "陷阱卡",
-            "反射法術",
-            "https://imgur.com/a/Dd7OHBt"
-        ]
-    ],
-    "total_page": 1
-}
-```
-</details>
-
-<details>
 <summary>check Store (查詢store的所有 store Card)</summary>
 
 ```python
-# /store/id=<int:store_id>&page=<int:page> , method = POST
-# ex:/store/id=1&page=1
-# 每頁上限目前預設為 30
-{
-    "orderWay" : "id",  # 選項 : id, price, quantity
-    "ascending" : true # true為正序
-}
+# /store?id=<int:store_id> , method = GET
+# params可選包括 page (int), pageLimit (int), orderWay (str)(包含 id, name, quantity), ascending(bool)
+# ex:/store?id=1&page=1&ascending=true
 ```
 return likes
 ```python
@@ -217,8 +147,8 @@ return likes
 <summary>check ActualCard</summary>
 
 ```python
-# /actualCard/id=<int:card_id> , method = GET
-# ex: /actualCard/id=1
+# /actualCard?id=<int:card_id> , method = GET
+# ex: /actualCard?id=1
 ```
 return "Card not found" or return ActualCard likes
 ```python
@@ -253,8 +183,8 @@ return "added"
 <summary>update ActualCard</summary>
 
 ```python
-# /actualCard/update/id=<int:card_id> , method = PUT
-# ex:/actualCard/update/id=1
+# /actualCard/update?id=<int:card_id> , method = PUT
+# ex:/actualCard/update?id=1
 {
     "name" : "forest elf",
     "catagory" : "elf",
@@ -270,8 +200,8 @@ return "Card not found" or "updated"
 <summary>remove ActualCard</summary>
 
 ```python
-# /actualCard/remove/id=<int:card_id> , method = DELETE
-# ex:/actualCard/remove/id=1
+# /actualCard/remove?id=<int:card_id> , method = DELETE
+# ex:/actualCard/remove?id=1
 ```
 return "Card not found" or "removed"
 </details>
@@ -280,34 +210,12 @@ return "Card not found" or "removed"
 ### Comment
 
 <details>
-<summary>check comment from store (default)</summary>
-
-```python
-# /comment/store_id=<int:store_id> , method = GET
-# ex:/comment/store_id=1 
-```
-return "Store not found" or return comment likes
-```python
-{
-    "items": [
-        [
-            1,          # comment id
-            5,          # score
-            "賣家出貨快",# context
-            1           # user id
-        ]
-    ],
-    "total_page": 1
-}
-```
-</details>
-
-<details>
 <summary>check comment from store</summary>
 
 ```python
-# /comment/store_id=<int:store_id>&page=<int:page> , method = GET
-# ex:/comment/store_id=1&page=1
+# /comment?store_id=<int:store_id>&page=<int:page> , method = GET
+# params可選包括 page (int), pageLimit (int)
+# ex:/comment?store_id=1&page=1&pageLimit=30
 ```
 return "Store not found" or return comment likes
 ```python
@@ -329,8 +237,8 @@ return "Store not found" or return comment likes
 <summary>Add Comment</summary>
 
 ```python
-# /comment/add/store_id=<int:store_id> , method = POST
-# /comment/add/store_id=1
+# /comment/add?store_id=<int:store_id> , method = POST
+# /comment/add?store_id=1
 {
     "score" : 5,
     "context" : "777",
@@ -345,8 +253,8 @@ return "Store not found" or "User not found" or "added"
 <summary>update Comment</summary>
 
 ```python
-# /comment/update/id=<int:comment_id> , method = PUT
-# /comment/update/id=1
+# /comment/update?id=<int:comment_id> , method = PUT
+# /comment/update?id=1
 {
     "score" : 5,
     "context" : "777"
@@ -361,8 +269,54 @@ return "Comment not found" or "updated"
 <summary>remove Comment</summary>
 
 ```python
-# /comment/remove/id=<int:comment_id> , method = DELETE
-# /comment/remove/id=1
+# /comment/remove?id=<int:comment_id> , method = DELETE
+# ex: /comment/remove?id=1
 ```
 return "Comment not found" or "removed"
+</details>
+
+### Order
+</details>
+
+<details>
+<summary>check Order</summary>
+
+```python
+# /order?id=<int:order_id> , method = GET
+# params可選包括 page (int), pageLimit (int)
+# ex: /order?id=101&page=1
+```
+return "Order not found" or return Order likes
+```python
+{
+    "items": {
+        "1": [          # store id
+            [
+                4,              # store card id
+                500,            # store card price
+                4,              # order quantity
+                4               # actual card id
+            ]
+        ]
+    },
+    "total_page": 1
+}
+```
+</details>
+
+<details>
+<summary>add Order</summary>
+
+```python
+# /order/add?user_id=<int:user_id> , method = POST
+# ex: /order?id=101&page=1
+{
+    "address":"",
+    "items":{
+        "2":1,
+        "3":4
+    }
+}
+```
+return orderId
 </details>

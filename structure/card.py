@@ -48,6 +48,11 @@ def removeCard(data:dict):
     sql.command(f"DELETE FROM StoreCard WHERE ID = {data['Card_ID']}")
     return "removed"
 
+def getPrice(Card_ID:int):
+    if sql.countTable(f"StoreCard where ID = {Card_ID}") == 0:
+        return "Card ID not exist"
+    return sql.command(f"SELECT Price FROM StoreCard where ID = {Card_ID}")[0][0]
+
 # Actual Card
 
 # 查詢 ActualCard

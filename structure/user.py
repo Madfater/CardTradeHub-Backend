@@ -18,9 +18,10 @@ def Register(data:dict):
     return "register success"
 
 # 登陸User
-def Login(data):
+def Login(data:dict):
     if sql.countTable(f"User where Email = '{data['email']}'") == 0:
         return "this email isn't register yet"
     cmd = "Select Password from User where Email = "+ f"'{data['email']}'"
     acuratePassword = sql.command(cmd)[0][0]
-    return "login success" if data['password'] == acuratePassword else "login failed"
+    id = sql.command("Select ID from User where Email = "+ f"'{data['email']}'")[0][0]
+    return id if data['password'] == acuratePassword else "login failed"
