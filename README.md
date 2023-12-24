@@ -320,3 +320,116 @@ return "Order not found" or return Order likes
 ```
 return orderId
 </details>
+
+### Store Card
+<details>
+<summary>get StoreCard</summary>
+
+```python
+# /card?id=<int:card_id> , method = POST
+# ex: /card?id=1
+```
+
+return "Card not found" or return StoreCard likes
+```python
+[
+    "神聖彗星反射力量",  # name
+    "陷阱卡",           # catagory
+    "反射法術",         # description
+    500,                # price
+    "九成新狀態良好",    # status
+    10,                 # quantity
+    4,                  # actual card id
+    1,                  # store id
+    "Happy Card Store"  # store name
+]
+```
+</details>
+
+<details>
+<summary>search StoreCard</summary>
+
+```python
+# /card/search?keyword=<str:keyword> , method = POST
+# params可選包括 page (int), pageLimit (int), orderWay (str)(包含 id, name, quantity), ascending(bool)
+# ex: /card/search?keyword=卡&orderWay=price&ascending=false
+```
+
+return "no results" or return StoreCard likes
+```python
+{
+    "items": [
+        [
+            5,              # store card id
+            "貪欲之壺",      # name
+            "法術卡",        # catagory
+            "抽五張卡",      # description
+            15,             # price
+            "舊卡新賣",      # status
+            20,             # quantity
+            5,              # actual card id
+            2,              # store id
+            "Change Store"  # store name
+        ],
+        [
+            3,
+            "死者復甦",
+            "法術卡",
+            "復活墓地一隻怪獸卡到場上",
+            40,
+            "九成新狀態良好",
+            15,
+            3,
+            2,
+            "Change Store"
+        ]
+    ],
+    "total_page": 1
+}
+```
+</details>
+
+<details>
+<summary>add StoreCard</summary>
+
+```python
+# /card/add?store_id=<str:store_id> , method = POST
+# ex: /card/add?store_id=1
+{
+    "price":10,
+    "status":"9成新",
+    "quantity":4,
+    "accard_ID": 2
+}
+```
+return storeCard_ID or "Store not found"
+</details>
+
+<details>
+<summary>update StoreCard</summary>
+
+```python
+# /card/add?store_id=<str:store_id> , method = POST
+# ex: /card/add?store_id=1
+{
+    "price":10,
+    "status":"9成新",
+    "quantity":4
+    # 至少包含 price status quantity 其中一個
+}
+```
+return "Card not found" or "no access" or "updated"
+</details>
+
+<details>
+<summary>remove StoreCard</summary>
+
+```python
+# /card/remove?id=<str:store_id> , method = POST
+# ex: /card/remove?id=1
+{
+    "user_id":1
+}
+```
+return "Card not found" or "no access" or "updated"
+</details>
