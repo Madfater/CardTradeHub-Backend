@@ -14,58 +14,81 @@ def UserApproach(method):
         return jsonify(user.Register(request.get_json()))
 
 # ShoppingCart
-@app.route('/cart/user_id=<int:user_id>', methods = ['GET'])
-def CartDefault(user_id):
-    return jsonify(cart.lookCart(user_id))
-@app.route('/cart/user_id=<int:user_id>&page=<int:page>', methods = ['GET'])
-def Cart(user_id,page):
-    return jsonify(cart.lookCart(user_id,page,pageLimit=30))
-@app.route('/cart/add/user_id=<int:user_id>&card_id=<int:card_id>', methods = ['POST'])
-def AddCardToCart(user_id, card_id):
+@app.route('/cart', methods = ['GET'])
+def Cart():
+    user_id = request.args.get('user_id')
+    page = request.args.get('page', default = 1, type = int)
+    pageLimit = request.args.get('page_limit', default = 30, type = int)
+    return jsonify(cart.lookCart(user_id,page,pageLimit))
+@app.route('/cart/add', methods = ['POST'])
+def AddCardToCart():
+    user_id = request.args.get('user_id')
+    card_id = request.args.get('card_id')
     return jsonify(cart.addCard(user_id,card_id))
-@app.route('/cart/remove/user_id=<int:user_id>&card_id=<int:card_id>', methods = ['DELETE'])
-def RemoveCardFromCart(user_id, card_id):
+@app.route('/cart/remove', methods = ['DELETE'])
+def RemoveCardFromCart():
+    user_id = request.args.get('user_id')
+    card_id = request.args.get('card_id')
     return jsonify(cart.removeCard(user_id, card_id))
 
 # Store
-@app.route('/store/id=<int:store_id>', methods = ['GET'])
-def StoreDefault(store_id):
-    return jsonify(store.lookStore(store_id))
-@app.route('/store/id=<int:store_id>&page=<int:page>', methods = ['POST'])
-def Store(store_id,page):
-    return jsonify(store.lookStore(store_id, request.get_json(),page))
+@app.route('/store', methods = ['GET'])
+def Store():
+    store_id = request.args.get('id')
+    print(store_id)
+    page = request.args.get('page', default = 1, type = int)
+    pageLimit = request.args.get('pageLimit', default = 30, type = int)
+    orderWay = request.args.get('orderWay', default = "id", type = str)
+    ascending = request.args.get('ascending', default = True, type = bool)
+    return jsonify(store.lookStore(store_id, page, pageLimit, orderWay, ascending))
 
 # Actual Card
-@app.route('/actualCard/id=<int:card_id>', methods = ['GET'])
-def ActualCard(card_id):
+@app.route('/actualCard', methods = ['GET'])
+def ActualCard():
+    card_id = request.args.get('id')
     return jsonify(card.GetActualCard(card_id))
 @app.route('/actualCard/add', methods = ['POST'])
 def AddActualCard():
     return jsonify(card.AddActualCard(request.get_json()))
-@app.route('/actualCard/update/id=<int:card_id>', methods = ['PUT'])
-def UpdateActualCard(card_id):
+@app.route('/actualCard/update', methods = ['PUT'])
+def UpdateActualCard():
+    card_id = request.args.get('id')
     return jsonify(card.updateActualCard(card_id,request.get_json()))
-@app.route('/actualCard/remove/id=<int:card_id>', methods = ['DELETE'])
-def RemoveActualCard(card_id):
+@app.route('/actualCard/remove', methods = ['DELETE'])
+def RemoveActualCard():
+    card_id = request.args.get('id')
     return jsonify(card.removeActualCard(card_id))
 
 # comment
-@app.route('/comment/store_id=<int:store_id>', methods = ['GET'])
-def CommentDefault(store_id):
-    return jsonify(comment.lookComment(store_id))
-@app.route('/comment/store_id=<int:store_id>&page=<int:page>', methods = ['GET'])
-def Comment(store_id,page):
-    return jsonify(comment.lookComment(store_id,page))
-@app.route('/comment/add/store_id=<int:store_id>', methods = ['POST'])
-def AddComment(store_id):
+@app.route('/comment', methods = ['GET'])
+def CommentDefault():
+    store_id = request.args.get('store_id')
+    page = request.args.get('page', default = 1 , type = int)
+    pageLimit = request.args.get('pageLimit', default = 30 , type = int)
+    return jsonify(comment.lookComment(store_id,page,pageLimit))
+@app.route('/comment/add', methods = ['POST'])
+def AddComment():
+    store_id = request.args.get('store_id')
     return jsonify(comment.AddComment(store_id, request.get_json()))
-@app.route('/comment/update/id=<int:comment_id>', methods = ['PUT'])
-def UpdateComment(comment_id):
+@app.route('/comment/update', methods = ['PUT'])
+def UpdateComment():
+    comment_id = request.args.get('id')
     return jsonify(comment.updateComment(comment_id, request.get_json()))
-@app.route('/comment/remove/id=<int:comment_id>', methods = ['DELETE'])
+@app.route('/comment/remove', methods = ['DELETE'])
 def RemoveComment(comment_id):
+    comment_id = request.args.get('id')
     return jsonify(comment.removeComment(comment_id))
 
-
+# order
+@app.route('/order', methods = ['GET'])
+def Order():
+    id = request.args.get('id')
+    page = request.args.get('page', default = 1 , type = int)
+    pageLimit = request.args.get('pageLimit', default = 30 , type = int)
+    return jsonify(order.lookOrder(id, page, pageLimit))
+@app.route('/order/add', methods = ['POST'])
+def AddOrder():
+    user_id = request.args.get('user_id')
+    return jsonify(order.addOrder(user_id, request.get_json()))
 if __name__ == '__main__':
     app.run(debug = True)

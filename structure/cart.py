@@ -11,9 +11,15 @@ def lookCart(User_ID:int,page:int = 1, pageLimit:int = 30):
     where scart.ID = {User_ID}'''
     cmd += f" Limit {(page - 1)*pageLimit},{pageLimit}"
     result = sql.command(cmd)
+    items = {}
+    for r in result:
+        if items.get(r[-1]) == None:
+            items[r[-1]] = [r[:-1]]
+        else:
+            items[r[-1]] += [r[:-1]]
     total = len(result)
     total_page = math.floor(total / pageLimit) + 1
-    output = {"total_page":total_page, "items":result}
+    output = {"total_page":total_page, "items":items}
     return output
     
 # 加入Store card到 shopping cart
