@@ -35,7 +35,6 @@ def RemoveCardFromCart():
 @app.route('/store', methods = ['GET'])
 def Store():
     store_id = request.args.get('id')
-    print(store_id)
     page = request.args.get('page', default = 1, type = int)
     pageLimit = request.args.get('pageLimit', default = 30, type = int)
     orderWay = request.args.get('orderWay', default = "id", type = str)
@@ -90,5 +89,32 @@ def Order():
 def AddOrder():
     user_id = request.args.get('user_id')
     return jsonify(order.addOrder(user_id, request.get_json()))
+
+# Store Card
+@app.route('/card', methods = ['GET'])
+def Card():
+    id = request.args.get('id')
+    return jsonify(card.GetStoreCard(id))
+@app.route('/card/search', methods = ['GET'])
+def SearchCard():
+    param = request.args.get('keyword')
+    page = request.args.get('page', default = 1, type = int)
+    pageLimit = request.args.get('pageLimit', default = 30, type = int)
+    orderWay = request.args.get('orderWay', default = "id", type = str)
+    ascending = request.args.get('ascending', default = True, type = bool)
+    return jsonify(card.searchStoreCard(param, page, pageLimit, orderWay, ascending))
+@app.route('/card/add', methods = ['POST'])
+def AddCard():
+    store_id = request.args.get('store_id')
+    return jsonify(card.AddStoreCard(store_id, request.get_json()))
+@app.route('/card/update', methods = ['PUT'])
+def UpdateCard():
+    card_id = request.args.get('id')
+    return jsonify(card.UpdateCard(card_id, request.get_json()))
+@app.route('/card/remove', methods = ['DELETE'])
+def RemoveCard():
+    card_id = request.args.get('id')
+    return jsonify(card.removeStoreCard(card_id, request.get_json()))
+
 if __name__ == '__main__':
     app.run(debug = True)

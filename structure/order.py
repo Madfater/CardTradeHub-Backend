@@ -5,7 +5,6 @@ import math
 def lookOrder(Order_id: int, page: int, pageLimit:int):
     if sql.countTable(f"Order_List where ID = {Order_id}") == 0:
         return "Order not found"
-    
     cmd = f'''select sc.ID, sc.Price, oc.Quantity,sc.ACCard_ID,sc.Store_ID
     from StoreCard sc
     inner join Order_to_Card_Table oc ON oc.Card_ID = sc.ID
