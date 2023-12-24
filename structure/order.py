@@ -24,11 +24,11 @@ def lookOrder(Order_id: int, page: int, pageLimit:int):
     output = {"total_page":total_page, "items":items}
     return output
 
-def addOrder(User_ID:int, data:dict):
-    if sql.countTable(f"User where ID = {User_ID}") == 0:
+def addOrder(data:dict):
+    if sql.countTable(f"User where ID = {data['user_id']}") == 0:
         return "User not found"
     order_id = sql.getMaxId("Order_List") + 1
-    order_list_args = [order_id, data['address'], 0, int(User_ID)]
+    order_list_args = [order_id, data['address'], 0, int(data['user_id'])]
     sql.command(sql.insert(f"Order_List", order_list_args))
     total_price = 0
     for (card_id,quantity) in data["items"].items():
