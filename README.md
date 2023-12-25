@@ -321,6 +321,16 @@ return "Order not found" or return Order likes
 return orderId
 </details>
 
+<details>
+<summary>remove Order</summary>
+
+```python
+# /order/remove?id=<int:order_id> , method = DELETE
+# ex: /order/remove?id=1
+```
+return "Order not found" or "removed"
+</details>
+
 ### Store Card
 <details>
 <summary>get StoreCard</summary>
