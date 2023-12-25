@@ -23,13 +23,13 @@ def lookCart(User_ID:int,page:int = 1, pageLimit:int = 30):
     return output
     
 # 加入Store card到 shopping cart
-def addCard(User_ID:int, Card_ID:int):
-    if sql.countTable(f"User where ID = {User_ID}") == 0:
+def addCard(data:dict):
+    if sql.countTable(f"User where ID = {data['user_id']}") == 0:
         return "User not found"
-    if sql.countTable(f"StoreCard where ID = {Card_ID}") == 0:
+    if sql.countTable(f"StoreCard where ID = {data['card_id']}") == 0:
         return "Card not found"
     id = sql.getMaxId("Card_to_Cart_Table") + 1
-    card_to_cart_arg = [id, User_ID, Card_ID]
+    card_to_cart_arg = [id, data['user_id'], data['card_id']]
     sql.command(sql.insert("Card_to_Cart_Table",card_to_cart_arg))
     return "added"
 

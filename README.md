@@ -80,8 +80,12 @@ return StoreCard in ShoppingCart likes
 
 
 ```python
-# /cart/add?user_id=&card_id=<int:card_id> , method = POST
-# ex:/cart/add?user_id=1&card_id=2
+# /cart/add , method = POST
+
+{
+    "user_id" : 1,
+    "card_id" : 2
+}
 ```
 return "User not found" or "Card not found" or "added"
 </details>
@@ -369,7 +373,7 @@ return "Card not found" or return StoreCard likes
 <summary>search StoreCard</summary>
 
 ```python
-# /card/search?keyword=<str:keyword> , method = POST
+# /card/search?keyword=<str:keyword> , method = GET
 # params可選包括 page (int), pageLimit (int), orderWay (str)(包含 id, name, quantity), ascending(bool)
 # ex: /card/search?keyword=卡&orderWay=price&ascending=false
 ```

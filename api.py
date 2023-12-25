@@ -22,9 +22,7 @@ def Cart():
     return jsonify(cart.lookCart(user_id,page,pageLimit))
 @app.route('/cart/add', methods = ['POST'])
 def AddCardToCart():
-    user_id = request.args.get('user_id')
-    card_id = request.args.get('card_id')
-    return jsonify(cart.addCard(user_id,card_id))
+    return jsonify(cart.addCard(request.get_json()))
 @app.route('/cart/remove', methods = ['DELETE'])
 def RemoveCardFromCart():
     return jsonify(cart.removeCard(request.get_json()))
@@ -56,7 +54,7 @@ def RemoveActualCard():
 
 # comment
 @app.route('/comment', methods = ['GET'])
-def CommentDefault():
+def Comment():
     store_id = request.args.get('store_id')
     page = request.args.get('page', default = 1 , type = int)
     pageLimit = request.args.get('pageLimit', default = 30 , type = int)
