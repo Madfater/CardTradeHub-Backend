@@ -91,8 +91,11 @@ return "User not found" or "Card not found" or "added"
 
 
 ```python
-# /cart/remove?user_id=&card_id=<int:card_id> , method = DELETE
-# ex:/cart/remove?user_id=1&card_id=2 
+# /cart/remove , method = DELETE
+{
+    "user_id":1,
+    "card_id":2
+}
 ```
 return "User not found" or "Card not found" or "Card not in shopping cart" or "removed"
 </details>
@@ -200,8 +203,10 @@ return "Card not found" or "updated"
 <summary>remove ActualCard</summary>
 
 ```python
-# /actualCard/remove?id=<int:card_id> , method = DELETE
-# ex:/actualCard/remove?id=1
+# /actualCard/remove , method = DELETE
+{
+    "card_id":1
+}
 ```
 return "Card not found" or "removed"
 </details>
@@ -269,8 +274,10 @@ return "Comment not found" or "updated"
 <summary>remove Comment</summary>
 
 ```python
-# /comment/remove?id=<int:comment_id> , method = DELETE
-# ex: /comment/remove?id=1
+# /comment/remove , method = DELETE
+{
+    "comment_id" : 1
+}
 ```
 return "Comment not found" or "removed"
 </details>
@@ -325,8 +332,10 @@ return orderId
 <summary>remove Order</summary>
 
 ```python
-# /order/remove?id=<int:order_id> , method = DELETE
-# ex: /order/remove?id=1
+# /order/remove , method = DELETE
+{
+    'order_id':1
+}
 ```
 return "Order not found" or "removed"
 </details>

@@ -39,9 +39,9 @@ def addOrder(data:dict):
     return order_id
 
 # remove order
-def removeOrder(order_id:int):
-    if sql.countTable(f"Order_List where ID = {order_id}") == 0:
+def removeOrder(data:dict):
+    if sql.countTable(f"Order_List where ID = {data['order_id']}") == 0:
         return "Order not found"
-    sql.command(f"DELETE FROM Order_to_Card_Table WHERE Order_ID = {order_id}")
-    sql.command(f"DELETE FROM Order_List WHERE ID = {order_id}")
+    sql.command(f"DELETE FROM Order_to_Card_Table WHERE Order_ID = {data['order_id']}")
+    sql.command(f"DELETE FROM Order_List WHERE ID = {data['order_id']}")
     return "removed"

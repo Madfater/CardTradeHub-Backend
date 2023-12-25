@@ -34,14 +34,14 @@ def addCard(User_ID:int, Card_ID:int):
     return "added"
 
 # remove card from shopping cart
-def removeCard(User_ID:int, Card_ID:int):
-    if sql.countTable(f"User where ID = {User_ID}") == 0:
+def removeCard(data:dict):
+    if sql.countTable(f"User where ID = {data['user_id']}") == 0:
         return "User not found"
-    if sql.countTable(f"StoreCard where ID = {Card_ID}") == 0:
+    if sql.countTable(f"StoreCard where ID = {data['card_id']}") == 0:
         return "Card not found"
-    if sql.countTable(f"Card_to_Cart_Table where Card_ID = {Card_ID}") == 0:
+    if sql.countTable(f"Card_to_Cart_Table where Card_ID = {data['card_id']}") == 0:
         return "Card not in shopping cart"
     sql.command(f'''Delete From Card_to_Cart_Table 
-                where Card_ID = {Card_ID} 
-                and Cart_ID = {User_ID}''')
+                where Card_ID = {data['card_id']} 
+                and Cart_ID = {data['user_id']}''')
     return "removed"
