@@ -85,6 +85,10 @@ def Order():
 @app.route('/order/add', methods = ['POST'])
 def AddOrder():
     return jsonify(order.addOrder(request.get_json()))
+@app.route('/order/remove', methods = ['DELETE'])
+def RemoveOrder():
+    order_id = request.args.get('id')
+    return jsonify(order.removeOrder())
 
 # Store Card
 @app.route('/card', methods = ['GET'])

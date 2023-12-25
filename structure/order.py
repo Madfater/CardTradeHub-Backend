@@ -24,6 +24,7 @@ def lookOrder(Order_id: int, page: int, pageLimit:int):
     output = {"total_page":total_page, "items":items}
     return output
 
+# add order
 def addOrder(data:dict):
     if sql.countTable(f"User where ID = {data['user_id']}") == 0:
         return "User not found"
@@ -36,3 +37,11 @@ def addOrder(data:dict):
         sql.command(sql.insert("Order_to_Card_Table",[sql.getMaxId("Order_to_Card_Table")+1, quantity, order_id, card_id]))
     sql.command(f"update Order_List set Total_Price = {total_price} where ID = {order_id}")
     return order_id
+
+# remove order
+def removeOrder(order_id:int):
+    if sql.countTable(f"Order_List where ID = {order_id}") == 0:
+        return "Order not found"
+    sql.command(f"DELETE FROM Order_to_Card_Table WHERE Order_ID = {order_id}")
+    sql.command(f"DELETE FROM Order_List WHERE ID = {order_id}")
+    return "removed"
