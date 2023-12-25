@@ -114,9 +114,9 @@ def updateActualCard(data:dict):
     return "updated"
 
 # remove Actual Card
-def removeActualCard(card_id:int):
-    if sql.countTable(f"ActualCard where ID = {card_id}") == 0:
+def removeActualCard(data:dict):
+    if sql.countTable(f"ActualCard where ID = {data['card_id']}") == 0:
         return "Card not found"
-    sql.command(f"Delete from StoreCard where ACCard_ID = {card_id}")
-    sql.command(f"Delete from ActualCard where ID = {card_id}")
+    sql.command(f"Delete from StoreCard where ACCard_ID = {data['card_id']}")
+    sql.command(f"Delete from ActualCard where ID = {data['card_id']}")
     return "removed"

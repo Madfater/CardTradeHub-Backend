@@ -27,9 +27,7 @@ def AddCardToCart():
     return jsonify(cart.addCard(user_id,card_id))
 @app.route('/cart/remove', methods = ['DELETE'])
 def RemoveCardFromCart():
-    user_id = request.args.get('user_id')
-    card_id = request.args.get('card_id')
-    return jsonify(cart.removeCard(user_id, card_id))
+    return jsonify(cart.removeCard(request.get_json()))
 
 # Store
 @app.route('/store', methods = ['GET'])
@@ -54,8 +52,7 @@ def UpdateActualCard():
     return jsonify(card.updateActualCard(request.get_json()))
 @app.route('/actualCard/remove', methods = ['DELETE'])
 def RemoveActualCard():
-    card_id = request.args.get('id')
-    return jsonify(card.removeActualCard(card_id))
+    return jsonify(card.removeActualCard(request.get_json()))
 
 # comment
 @app.route('/comment', methods = ['GET'])
@@ -71,9 +68,8 @@ def AddComment():
 def UpdateComment():
     return jsonify(comment.updateComment(request.get_json()))
 @app.route('/comment/remove', methods = ['DELETE'])
-def RemoveComment(comment_id):
-    comment_id = request.args.get('id')
-    return jsonify(comment.removeComment(comment_id))
+def RemoveComment():
+    return jsonify(comment.removeComment(request.get_json()))
 
 # order
 @app.route('/order', methods = ['GET'])
@@ -87,8 +83,7 @@ def AddOrder():
     return jsonify(order.addOrder(request.get_json()))
 @app.route('/order/remove', methods = ['DELETE'])
 def RemoveOrder():
-    order_id = request.args.get('id')
-    return jsonify(order.removeOrder())
+    return jsonify(order.removeOrder(request.get_json()))
 
 # Store Card
 @app.route('/card', methods = ['GET'])

@@ -33,8 +33,8 @@ def updateComment(data:dict):
     return "updated"
 
 # delete comment
-def removeComment(comment_id:int):
-    if sql.countTable(f"Comment where ID = {comment_id}") == 0:
+def removeComment(data:dict):
+    if sql.countTable(f"Comment where ID = {data['comment_id']}") == 0:
         return "Comment not found"
-    sql.command(f"DELETE FROM Comment where ID = {comment_id}")
+    sql.command(f"DELETE FROM Comment where ID = {data['comment_id']}")
     return "removed"
