@@ -50,7 +50,7 @@ return User ID or "login failed" or "this email isn't register yet"
 <summary>Get User Name</summary>
 
 ```python
-# /user/name?id=<int:user_id> , method = GET
+# /user/name?id=<int:userId> , method = GET
 # ex : /user/name?id=1
 ```
 return User ID or "login failed" or "this email isn't register yet"
@@ -62,40 +62,36 @@ return User ID or "login failed" or "this email isn't register yet"
 <summary>check ShoppingCart</summary>
 
 ```python
-# /cart?user_id=<int:user_id> , method = GET
+# /cart?userId=<int:userId> , method = GET
 # params可選包括 page (int), pageLimit (int)
-# ex:/cart/user_id=1&page=1
+# ex:/cart/userId=1&page=1
 ```
 return StoreCard in ShoppingCart likes
 ```python
 {
-  "items": {
-    "2": [                # store id
-      [
-        1,               # store card id
-        500,             # store card price
-        "九成新狀態良好", # store card status
-        10,              # store card quantity
-        1,               # actual card id
-        "青眼白龍",       # card name
-        "怪獸卡",         # card category
-        "超猛飛龍毀滅一切",# card description
-        "https://imgur.com/a/2FFGPMs" # imgPath
-      ],
-      [
-        3,
-        40,
-        "九成新狀態良好",
-        15,
-        3,
-        "死者復甦",
-        "法術卡",
-        "復活墓地一隻怪獸卡到場上",
-        "https://imgur.com/a/CYPu9TG"
-      ]
-    ]
-  },
-  "total_page": 1
+    "items": {
+        "2": [
+            {
+                "cardCategory": "怪獸卡",
+                "cardDescription": "超猛飛龍毀滅一切",
+                "cardName": "青眼白龍",
+                "storeCardId": 1,
+                "storeCardPrice": 500,
+                "storeCardQuantity": 10,
+                "storeCardStatus": "九成新狀態良好"
+            },
+            {
+                "cardCategory": "法術卡",
+                "cardDescription": "復活墓地一隻怪獸卡到場上",
+                "cardName": "死者復甦",
+                "storeCardId": 3,
+                "storeCardPrice": 40,
+                "storeCardQuantity": 15,
+                "storeCardStatus": "九成新狀態良好"
+            }
+        ]
+    },
+    "totalpage": 1
 }
 ```
 </details>
@@ -108,8 +104,8 @@ return StoreCard in ShoppingCart likes
 # /cart/add , method = POST
 
 {
-    "user_id" : 1,
-    "card_id" : 2,
+    "userId" : 1,
+    "cardId" : 2,
     "quantity" : 1
 }
 ```
@@ -123,8 +119,8 @@ return "User not found" or "Card not found" or "added"
 ```python
 # /cart/remove , method = DELETE
 {
-    "user_id":1,
-    "card_id":2
+    "userId":1,
+    "cardId":2
 }
 ```
 return "User not found" or "Card not found" or "Card not in shopping cart" or "removed"
@@ -135,41 +131,53 @@ return "User not found" or "Card not found" or "Card not in shopping cart" or "r
 ### Store
 
 <details>
-<summary>check Store (查詢store的所有 store Card)</summary>
+<summary>check Store</summary>
 
 ```python
-# /store?id=<int:store_id> , method = GET
+# /store?id=<int:storeId> , method = GET
+# ex:/store?id=1
+```
+return likes
+```python
+{
+    "storeID": 1,
+    "storeName": "Happy Card Store"
+}
+```
+</details>
+
+<details>
+<summary>check Card in Store</summary>
+
+```python
+# /card/store?storeId=<int:storeId> , method = GET
 # params可選包括 page (int), pageLimit (int), orderWay (str)(包含 id, name, quantity), ascending(bool)
-# ex:/store?id=1&page=1&ascending=true
+# ex:/card/store?storeId=1&page=1&ascending=true
 ```
 return likes
 ```python
 {
     "items": [
-        [
-            3,                          # Card_id
-            40,                         # price
-            "九成新狀態良好",            # status
-            15,                         # quantity
-            1,                          # actual card id
-            "死者復甦",                  # name
-            "法術卡",                    # catagory
-            "復活墓地一隻怪獸卡到場上",    # description
-            "https://imgur.com/a/CYPu9TG"# imgPath
-        ],
-        [
-            4,
-            500,
-            "九成新狀態良好",
-            10,
-            1,
-            "神聖彗星反射力量",
-            "陷阱卡",
-            "反射法術",
-            "https://imgur.com/a/Dd7OHBt"
-        ]
+        {
+            "storeId": 1,
+            "name": "神聖彗星反射力量",
+            "actaulCardID": 4,
+            "price": 500,
+            "quantity": 10,
+            "storeCardId": 4,
+            "storeName": "Happy Card Store"
+        },
+        {
+            "storeId": 1,
+            "name": "黑魔導女孩",
+            "actaulCardID": 2,
+            "price": 10,
+            "quantity": 4,
+            "storeCardId": 7,
+            "storeName": "Happy Card Store"
+        }
     ],
-    "total_page": 1
+    "totalpage": 1
 }
 ```
 </details>
@@ -180,20 +188,17 @@ return likes
 <summary>check ActualCard</summary>
 
 ```python
-# /actualCard?id=<int:card_id> , method = GET
+# /actualCard?id=<int:cardId> , method = GET
 # ex: /actualCard?id=1
 ```
 return "Card not found" or return ActualCard likes
 ```python
-[
-    [
-        1,                             # Card_ID
-        "青眼白龍",                     # Name
-        "怪獸卡",                       # Catagory
-        "超猛飛龍毀滅一切",              # Description
-        "https://imgur.com/a/2FFGPMs"   # imgPath
-    ]
-]
+{
+    "cardID":1,
+    "name":"青眼白龍", 
+    "catagory":"怪獸卡",
+    "description":"超猛飛龍毀滅一切"
+}
 ```
 </details>
 
@@ -205,8 +210,7 @@ return "Card not found" or return ActualCard likes
 {
     "name" : "nothing",
     "catagory" : "dragon",
-    "description" : "destory enemy",
-    "imgPath" : "http"
+    "description" : "destory enemy"
 }
 ```
 return "added"
@@ -218,12 +222,11 @@ return "added"
 ```python
 # /actualCard/update , method = PUT
 {
-    "card_id" : 1,
+    "cardId" : 1,
     "name" : "forest elf",
     "catagory" : "elf",
-    "description":"send itself to the tomb",
-    "imgPath":"http:849898984"
-    # 至少包含 name catagory description imgPath 其中一項
+    "description":"send itself to the tomb"
+    # 至少包含 name catagory description 其中一項
 }
 ```
 return "Card not found" or "updated"
@@ -235,7 +238,7 @@ return "Card not found" or "updated"
 ```python
 # /actualCard/remove , method = DELETE
 {
-    "card_id":1
+    "cardId":1
 }
 ```
 return "Card not found" or "removed"
@@ -248,22 +251,22 @@ return "Card not found" or "removed"
 <summary>check comment from store</summary>
 
 ```python
-# /comment?store_id=<int:store_id>&page=<int:page> , method = GET
+# /comment?storeId=<int:storeId>&page=<int:page> , method = GET
 # params可選包括 page (int), pageLimit (int)
-# ex:/comment?store_id=1&page=1&pageLimit=30
+# ex:/comment?storeId=1&page=1&pageLimit=30
 ```
 return "Store not found" or return comment likes
 ```python
 {
     "items": [
-        [
-            1,          # comment id
-            5,          # score
-            "賣家出貨快",# context
-            1           # user id
-        ]
+        {
+            "commentID": 1,
+            "context": "賣家出貨快",
+            "score": 5,
+            "userID": 1
+        }
     ],
-    "total_page": 1
+    "totalpage": 1
 }
 ```
 </details>
@@ -274,10 +277,10 @@ return "Store not found" or return comment likes
 ```python
 # /comment/add , method = POST
 {
-    "store_id":1,
+    "storeId":1,
     "score" : 5,
     "context" : "777",
-    "user_id":1
+    "userId":1
 }
 
 ```
@@ -327,16 +330,16 @@ return "Order not found" or return Order likes
 ```python
 {
     "items": {
-        "1": [          # store id
-            [
-                4,              # store card id
-                500,            # store card price
-                4,              # order quantity
-                4               # actual card id
-            ]
+        "1": [
+            {
+                "actualCardID": 4,
+                "orderQuantity": 4,
+                "storeCardID": 4,
+                "storeCardPrice": 500
+            }
         ]
     },
-    "total_page": 1
+    "totalpage": 1
 }
 ```
 </details>
@@ -347,7 +350,7 @@ return "Order not found" or return Order likes
 ```python
 # /order/add , method = POST
 {
-    "user_id":1,
+    "userId":1,
     "address":"",
     "items":{
         "2":1,
@@ -375,23 +378,21 @@ return "Order not found" or "removed"
 <summary>get StoreCard</summary>
 
 ```python
-# /card?id=<int:card_id> , method = POST
+# /card?id=<int:cardId> , method = POST
 # ex: /card?id=1
 ```
 
 return "Card not found" or return StoreCard likes
 ```python
-[
-    "神聖彗星反射力量",  # name
-    "陷阱卡",           # catagory
-    "反射法術",         # description
-    500,                # price
-    "九成新狀態良好",    # status
-    10,                 # quantity
-    4,                  # actual card id
-    1,                  # store id
-    "Happy Card Store"  # store name
-]
+{
+    "actaulCardID": 4,
+    "name": "神聖彗星反射力量",
+    "price": 500,
+    "quantity": 10,
+    "storeCardId": 4,
+    "storeId": 1,
+    "storeName": "Happy Card Store"
+}
 ```
 </details>
 
@@ -408,34 +409,26 @@ return "no results" or return StoreCard likes
 ```python
 {
     "items": [
-        [
-            5,              # store card id
-            "貪欲之壺",      # name
-            "法術卡",        # catagory
-            "抽五張卡",      # description
-            "https://imgur.com/a/pmltCFP", # img Path
-            15,             # price
-            "舊卡新賣",      # status
-            20,             # quantity
-            5,              # actual card id
-            2,              # store id
-            "Change Store"  # store name
-        ],
-        [
-            3,
-            "死者復甦",
-            "法術卡",
-            "復活墓地一隻怪獸卡到場上",
-            "https://imgur.com/a/CYPu9TG",
-            40,
-            "九成新狀態良好",
-            15,
-            3,
-            2,
-            "Change Store"
-        ]
+        {
+            "actaulCardID": 5,
+            "name": "貪欲之壺",
+            "price": 15,
+            "quantity": 20,
+            "storeCardId": 5,
+            "storeId": 2,
+            "storeName": "Change Store"
+        },
+        {
+            "actaulCardID": 3,
+            "name": "死者復甦",
+            "price": 40,
+            "quantity": 15,
+            "storeCardId": 3,
+            "storeId": 2,
+            "storeName": "Change Store"
+        }
     ],
-    "total_page": 1
+    "totalpage": 1
 }
 ```
 </details>
@@ -446,14 +439,14 @@ return "no results" or return StoreCard likes
 ```python
 # /card/add , method = POST
 {
-    "store_id" : 1,
+    "storeId" : 1,
     "price":10,
     "status":"9成新",
     "quantity":4,
-    "accard_ID": 2
+    "accardId": 2
 }
 ```
-return storeCard_ID or "Store not found"
+return storecardId or "Store not found"
 </details>
 
 <details>
@@ -462,7 +455,7 @@ return storeCard_ID or "Store not found"
 ```python
 # /card/update , method = POST
 {
-    "store_id" : 1,
+    "storeId" : 1,
     "price":10,
     "status":"9成新",
     "quantity":4
@@ -478,8 +471,8 @@ return "Card not found" or "no access" or "updated"
 ```python
 # /card/remove , method = POST
 {
-    "card_id":1,
-    "user_id":1
+    "cardId":1,
+    "userId":1
 }
 ```
 return "Card not found" or "no access" or "updated"
