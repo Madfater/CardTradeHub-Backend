@@ -97,7 +97,7 @@ def SearchCard():
     page = request.args.get('page', default = 1, type = int)
     pageLimit = request.args.get('pageLimit', default = 30, type = int)
     orderWay = request.args.get('orderWay', default = "id", type = str)
-    ascending = request.args.get('ascending', default = True, type = bool)
+    ascending = request.args.get('ascending', default = True, type = lambda x: x.lower() == 'true')
     return jsonify(card.searchStoreCard(param, page, pageLimit, orderWay, ascending))
 @app.route('/card/store', methods = ['GET'])
 def StoreCard():
@@ -105,7 +105,7 @@ def StoreCard():
     page = request.args.get('page', default = 1, type = int)
     pageLimit = request.args.get('pageLimit', default = 30, type = int)
     orderWay = request.args.get('orderWay', default = "id", type = str)
-    ascending = request.args.get('ascending', default = True, type = bool)
+    ascending = request.args.get('ascending', default = True, type = lambda x: x.lower() == 'true')
     return jsonify(card.lookCardInStore(storeId, page, pageLimit, orderWay, ascending))
 @app.route('/card/add', methods = ['POST'])
 def AddCard():
@@ -118,4 +118,4 @@ def RemoveCard():
     return jsonify(card.removeStoreCard(request.get_json()))
 
 if __name__ == '__main__':
-    app.run(debug = True, host=0.0.0.0)
+    app.run(debug = True, host="0.0.0.0")
