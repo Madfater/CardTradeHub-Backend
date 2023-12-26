@@ -3,8 +3,9 @@ import math
 import structure.store as store
 import json
 
-# Store Card
+order_way = {"id":"sc.ID", "price":"sc.Price", "quantity":"sc.Quantity"}
 
+# Store Card
 def storecardOutputFormat(output:list):
     require = ["storeCardId","name","actaulCardID","price","quantity","storeId","storeName"]
     res = {}
@@ -14,26 +15,32 @@ def storecardOutputFormat(output:list):
 
 # 取得 StoreCard
 def searchStoreCard(param:str, page:int, pageLimit:int, orderWay:str, ascending:bool):
-    cmd = f'''Select sc.ID, a.Name, a.ID, 
+    
+    cmd=f'''Select sc.ID, a.Name, a.ID, 
             sc.Price, sc.Quantity, sc.Store_ID,
-            s.Description
-            from StoreCard sc 
+            s.Description from '''
+                
+    conditions= f'''StoreCard sc 
             Join Store s ON s.ID = sc.Store_ID
             Join ActualCard a ON a.ID = sc.ACCard_ID
             where sc.ACCard_ID IN 
             (Select ID from ActualCard
-            where Name like "%{param}%" or Description like "%{param}%")
-            '''
-    order_way = {"id":"sc.ID", "price":"sc.Price", "quantity":"sc.Quantity"}
+            where Name like "%{param}%" or Description like "%{param}%") '''
+                
+    cmd+=conditions    
     cmd += f" Order By {order_way[orderWay]} {'ASC' if ascending else 'DESC'}"
     cmd += f" Limit {(page-1)*pageLimit},{pageLimit}"
+    
     result = sql.command(cmd)
+    total_row = sql.countTable(conditions)
+    
     result = [storecardOutputFormat(r) for r in result]
-    total = len(result)
-    if total == 0:
+    
+    if total_row == 0:
         result = "no results"
-    totalpage = math.floor(total / pageLimit) + 1 if total > 0 else 0
-    output = {"totalpage":totalpage, "items":result}
+        
+    total_page = math.ceil(total_row / pageLimit) 
+    output = {"totalPage":total_page, "items":result}
     return output
 
 # 取得 StoreCard
@@ -54,23 +61,29 @@ def GetStoreCard(cardId:int):
 def lookCardInStore(storeId:int, page:int, pageLimit:int, orderWay:str, ascending:bool):
     if sql.countTable(f"Store where ID = {storeId}") == 0:
         return "Store not found"
+        
     cmd = f'''Select sc.ID, a.Name, a.ID,
             sc.Price, sc.Quantity, sc.Store_ID,
-            s.Description
-            from StoreCard sc
+            s.Description from '''
+                
+    conditions = f'''StoreCard sc
             inner Join ActualCard a ON sc.ACCard_ID = a.ID
             inner Join Store s ON sc.Store_ID = s.ID
             where sc.Store_ID in
             (select ID from Store
             where ID = {storeId})
             '''
-    order_way = {"id":"sc.ID", "price":"sc.Price", "quantity":"sc.Quantity"}
+    
+    cmd+=conditions
+     
     cmd += f" Order By {order_way[orderWay]} {'ASC' if ascending else 'DESC'}"
     cmd += f" Limit {(page - 1)*pageLimit},{pageLimit}"
+    
     result = [storecardOutputFormat(r) for r in sql.command(cmd)]
-    total = len(result)
-    totalpage = math.floor(total / pageLimit) + 1
-    output = {"totalpage":totalpage, "items":result}
+    total_row=sql.countTable(conditions)
+    
+    total_page = math.ceil(total_row / pageLimit)
+    output = {"totalPage":total_page, "items":result}
     return output
 
 # 增加 StoreCard 到 Store

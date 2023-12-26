@@ -2,7 +2,7 @@ import mysql as sql
 import structure.card as card
 import math
 def OrderOutputFormat(output:list):
-    require = ["storeCardID","storeCardPrice","orderQuantity","actualCardID"]
+    require = ["storeCardID","storeCardPrice","orderQuantity","actualCardID","storeID"]
     res = {}
     for (k,v) in zip(require, output):
         res[k] = v
@@ -10,25 +10,29 @@ def OrderOutputFormat(output:list):
 
 # 取得order
 def lookOrder(Order_id: int, page: int, pageLimit:int):
-    if sql.countTable(f"Order_List where ID = {Order_id}") == 0:
-        return "Order not found"
-    cmd = f'''select sc.ID, sc.Price, oc.Quantity,sc.ACCard_ID,sc.Store_ID
-            from StoreCard sc
+    
+    cmd = f'''select sc.ID, sc.Price, oc.Quantity,sc.ACCard_ID,sc.Store_ID,o.ID from '''
+    
+    conditions =f'''StoreCard sc
             inner join Order_to_Card_Table oc ON oc.Card_ID = sc.ID
             inner join Order_List o ON o.ID = oc.Order_ID
-            where o.ID = {Order_id}
-            '''
+            where o.User_ID = {Order_id}'''
+            
+    cmd += conditions
     cmd += f" Limit {(page-1)*pageLimit},{pageLimit}"
+    
     result = sql.command(cmd)
+    print(result)
     items = {}
     for r in result:
         if items.get(r[-1]) == None:
             items[r[-1]] = [OrderOutputFormat(r[:-1])]
         else:
             items[r[-1]] += [OrderOutputFormat(r[:-1])]
-    total = len(result)
-    totalpage = math.floor(total / pageLimit) + 1
-    output = {"totalpage" : totalpage, "items" : items}
+            
+    total = sql.countTable(conditions)
+    total_page = math.ceil(total / pageLimit) 
+    output = {"totalPage" : total_page, "items" : items}
     return output
 
 # add order

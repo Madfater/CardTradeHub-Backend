@@ -11,12 +11,19 @@ def CommentOutputFormat(output:list):
 def lookComment(storeId:int,page:int = 1,pageLimit:int = 30):
     if sql.countTable(f"Store where ID = {storeId}") == 0:
         return "Store not found"
-    cmd = f"SELECT ID, Score, Context, User_ID FROM Comment WHERE Store_ID = {storeId}"
+    
+    cmd = f"SELECT ID, Score, Context, User_ID FROM "
+    
+    conditions = f"Comment WHERE Store_ID = {storeId}"
+    
+    cmd += conditions
     cmd += f" Limit {(page - 1)*pageLimit},{pageLimit}"
+    
     result = [CommentOutputFormat(r) for r in sql.command(cmd)]
-    total = len(result)
-    totalpage = math.floor(total / pageLimit) + 1
-    output = {"totalpage":totalpage, "items":result}
+    total_row = sql.countTable(conditions)
+    
+    total_page = math.ceil(total_row / pageLimit)
+    output = {"totalPage":total_page, "items":result}
     return output
 
 # 增加評論

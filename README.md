@@ -91,7 +91,7 @@ return StoreCard in ShoppingCart likes
             }
         ]
     },
-    "totalpage": 1
+    "totalPage": 1
 }
 ```
 </details>
@@ -177,7 +177,7 @@ return likes
             "storeName": "Happy Card Store"
         }
     ],
-    "totalpage": 1
+    "totalPage": 1
 }
 ```
 </details>
@@ -266,7 +266,7 @@ return "Store not found" or return comment likes
             "userID": 1
         }
     ],
-    "totalpage": 1
+    "totalPage": 1
 }
 ```
 </details>
@@ -322,24 +322,41 @@ return "Comment not found" or "removed"
 <summary>check Order</summary>
 
 ```python
-# /order?id=<int:order_id> , method = GET
+# /order?id=<int:user_id> , method = GET
 # params可選包括 page (int), pageLimit (int)
-# ex: /order?id=101&page=1
+# ex: /order?id=1&page=1
 ```
 return "Order not found" or return Order likes
 ```python
 {
     "items": {
-        "1": [
+        "101": [ #訂單ID
             {
                 "actualCardID": 4,
                 "orderQuantity": 4,
                 "storeCardID": 4,
-                "storeCardPrice": 500
+                "storeCardPrice": 500,
+                "storeID": 1
+            }
+        ],
+        "104": [
+            {
+                "actualCardID": 2,
+                "orderQuantity": 1,
+                "storeCardID": 2,
+                "storeCardPrice": 15,
+                "storeID": 3
+            },
+            {
+                "actualCardID": 3,
+                "orderQuantity": 4,
+                "storeCardID": 3,
+                "storeCardPrice": 40,
+                "storeID": 1
             }
         ]
     },
-    "totalpage": 1
+    "totalPage": 1
 }
 ```
 </details>
@@ -428,7 +445,7 @@ return "no results" or return StoreCard likes
             "storeName": "Change Store"
         }
     ],
-    "totalpage": 1
+    "totalPage": 1
 }
 ```
 </details>

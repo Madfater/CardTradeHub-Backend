@@ -101,7 +101,7 @@ def SearchCard():
     return jsonify(card.searchStoreCard(param, page, pageLimit, orderWay, ascending))
 @app.route('/card/store', methods = ['GET'])
 def StoreCard():
-    storeId = request.args.get('id')
+    storeId = request.args.get('storeId')
     page = request.args.get('page', default = 1, type = int)
     pageLimit = request.args.get('pageLimit', default = 30, type = int)
     orderWay = request.args.get('orderWay', default = "id", type = str)
