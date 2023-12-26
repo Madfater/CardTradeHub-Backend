@@ -13,42 +13,41 @@ def storecardOutputFormat(output:list):
         res[k] = v
     return res
 
-# 取得 StoreCard
-def searchStoreCard(param:str, page:int, pageLimit:int, orderWay:str, ascending:bool):
+# 搜尋所有商品
+def searchStoreCard(param:str, catagory:str, page:int, pageLimit:int, orderWay:str, ascending:bool):
     
-    cmd=f'''Select sc.ID, a.Name, a.ID, 
-            sc.Price, sc.Quantity, sc.Store_ID,
-            s.Description from '''
-                
     conditions= f'''StoreCard sc 
             Join Store s ON s.ID = sc.Store_ID
             Join ActualCard a ON a.ID = sc.ACCard_ID
             where sc.ACCard_ID IN 
             (Select ID from ActualCard
-            where Name like "%{param}%" or Description like "%{param}%") '''
-                
-    cmd+=conditions    
-    cmd += f" Order By {order_way[orderWay]} {'ASC' if ascending else 'DESC'}"
-    cmd += f" Limit {(page-1)*pageLimit},{pageLimit}"
+            where Name like "%{param}%" and Catagory like "%{catagory}%") '''
     
-    result = sql.command(cmd)
     total_row = sql.countTable(conditions)
     
-    result = [storecardOutputFormat(r) for r in result]
-    
     if total_row == 0:
-        result = "no results"
+        return "Not Found"
+            
+    cmd=f'''Select sc.ID, a.Name, a.ID, 
+            sc.Price, sc.Quantity, sc.Store_ID,
+            s.Name from '''         
+    cmd += conditions    
+    cmd += f" Order By {order_way[orderWay]} {'ASC' if ascending else 'DESC'}"
+    cmd += f" Limit {(page-1)*pageLimit},{pageLimit}"
+        
+    result = [storecardOutputFormat(r) for r in sql.command(cmd)]
         
     total_page = math.ceil(total_row / pageLimit) 
-    output = {"totalPage":total_page, "items":result}
-    return output
+    
+    return {"totalPage":total_page, "items":result}
 
-# 取得 StoreCard
+# 取得商品
 def GetStoreCard(cardId:int):
     if sql.countTable(f"StoreCard where ID = {cardId}") == 0:
         return "Card not found"
     cmd = f'''Select sc.ID, a.Name, a.ID, 
             sc.Price, sc.Quantity, sc.Store_ID,
+            s.Name,
             s.Description
             from StoreCard sc 
             Join Store s ON s.ID = sc.Store_ID
@@ -57,14 +56,13 @@ def GetStoreCard(cardId:int):
     result = sql.command(cmd)[0]
     return storecardOutputFormat(result)
 
-# 查商店的 Store Card
+# 查看商店的所有商品
 def lookCardInStore(storeId:int, page:int, pageLimit:int, orderWay:str, ascending:bool):
     if sql.countTable(f"Store where ID = {storeId}") == 0:
         return "Store not found"
         
     cmd = f'''Select sc.ID, a.Name, a.ID,
-            sc.Price, sc.Quantity, sc.Store_ID,
-            s.Description from '''
+            sc.Price, sc.Quantity from '''
                 
     conditions = f'''StoreCard sc
             inner Join ActualCard a ON sc.ACCard_ID = a.ID
@@ -83,8 +81,7 @@ def lookCardInStore(storeId:int, page:int, pageLimit:int, orderWay:str, ascendin
     total_row=sql.countTable(conditions)
     
     total_page = math.ceil(total_row / pageLimit)
-    output = {"totalPage":total_page, "items":result}
-    return output
+    return {"totalPage":total_page, "items":result}
 
 # 增加 StoreCard 到 Store
 def AddStoreCard(data:dict):
