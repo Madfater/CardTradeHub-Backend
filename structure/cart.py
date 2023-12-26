@@ -31,7 +31,7 @@ def addCard(data:dict):
     if sql.countTable(f"StoreCard where ID = {data['card_id']}") == 0:
         return "Card not found"
     id = sql.getMaxId("Card_to_Cart_Table") + 1
-    card_to_cart_arg = [id, data['user_id'], data['card_id']]
+    card_to_cart_arg = [id, data['quantity'], data['user_id'], data['card_id']]
     sql.command(sql.insert("Card_to_Cart_Table",card_to_cart_arg))
     return "added"
 

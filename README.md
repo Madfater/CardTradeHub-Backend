@@ -109,7 +109,8 @@ return StoreCard in ShoppingCart likes
 
 {
     "user_id" : 1,
-    "card_id" : 2
+    "card_id" : 2,
+    "quantity" : 1
 }
 ```
 return "User not found" or "Card not found" or "added"
