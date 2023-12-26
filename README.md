@@ -46,6 +46,15 @@ return "User already exist" or "register success"
 return User ID or "login failed" or "this email isn't register yet"
 </details>
 
+<details>
+<summary>Get User Name</summary>
+
+```python
+# /user/name?id=<int:user_id> , method = GET
+# ex : /user/name?id=1
+```
+return User ID or "login failed" or "this email isn't register yet"
+</details>
 
 ### Shopping Cart
 
@@ -60,16 +69,32 @@ return User ID or "login failed" or "this email isn't register yet"
 return StoreCard in ShoppingCart likes
 ```python
 {
-  "items": [
-    [
-      1,               # store card id
-      500,             # store card price
-      "九成新狀態良好", # store card status
-      10,              # store card quantity
-      1,               # actual card id
-      2                # store id
+  "items": {
+    "2": [                # store id
+      [
+        1,               # store card id
+        500,             # store card price
+        "九成新狀態良好", # store card status
+        10,              # store card quantity
+        1,               # actual card id
+        "青眼白龍",       # card name
+        "怪獸卡",         # card category
+        "超猛飛龍毀滅一切",# card description
+        "https://imgur.com/a/2FFGPMs" # imgPath
+      ],
+      [
+        3,
+        40,
+        "九成新狀態良好",
+        15,
+        3,
+        "死者復甦",
+        "法術卡",
+        "復活墓地一隻怪獸卡到場上",
+        "https://imgur.com/a/CYPu9TG"
+      ]
     ]
-  ],
+  },
   "total_page": 1
 }
 ```
@@ -387,6 +412,7 @@ return "no results" or return StoreCard likes
             "貪欲之壺",      # name
             "法術卡",        # catagory
             "抽五張卡",      # description
+            "https://imgur.com/a/pmltCFP", # img Path
             15,             # price
             "舊卡新賣",      # status
             20,             # quantity
@@ -399,6 +425,7 @@ return "no results" or return StoreCard likes
             "死者復甦",
             "法術卡",
             "復活墓地一隻怪獸卡到場上",
+            "https://imgur.com/a/CYPu9TG",
             40,
             "九成新狀態良好",
             15,

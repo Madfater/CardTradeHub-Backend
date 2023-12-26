@@ -12,6 +12,10 @@ def UserApproach(method):
         return jsonify(user.Login(request.get_json()))
     elif method == "register":
         return jsonify(user.Register(request.get_json()))
+@app.route('/user/name', methods = ['GET'])
+def GetUserName():
+    id = request.args.get('id')
+    return jsonify(user.GetName(id))
 
 # ShoppingCart
 @app.route('/cart', methods = ['GET'])
