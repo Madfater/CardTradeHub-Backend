@@ -6,7 +6,7 @@ def lookStore(Store_ID:int, page:int, pageLimit:int, orderWay:str, ascending:boo
     if sql.countTable(f"Store where ID = {Store_ID}") == 0:
         return "Store not found"
     cmd = f'''select sc.ID, sc.Price, sc.Status, sc.Quantity, sc.Store_ID, 
-                ac.Name, ac.Catagory, ac.Description, ac.imgPath
+                ac.Name, ac.Catagory, ac.Description,
                 from StoreCard sc
                 Join ActualCard ac ON sc.ACCard_ID = ac.ID
                 where sc.Store_ID in

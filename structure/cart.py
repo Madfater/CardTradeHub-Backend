@@ -5,7 +5,7 @@ def lookCart(User_ID:int,page:int = 1, pageLimit:int = 30):
     if sql.countTable(f"User where ID = {User_ID}") == 0:
         return "User not found"
     cmd = f'''select sc.ID, sc.Price, sc.Status, sc.Quantity, sc.ACCard_ID,
-    ac.Name, ac.Catagory, ac.Description, ac.imgPath, sc.Store_ID
+    ac.Name, ac.Catagory, ac.Description, sc.Store_ID
     from StoreCard sc
     inner join Card_to_Cart_Table cctable ON cctable.Card_ID = sc.ID
     inner join Shopping_Cart scart ON scart.ID = cctable.Cart_ID
