@@ -6,7 +6,7 @@ import structure.store as store
 
 # 取得 StoreCard
 def searchStoreCard(param:str, page:int, pageLimit:int, orderWay:str, ascending:bool):
-    cmd = f'''Select sc.ID, a.Name, a.Catagory, a.Description, a.imgPath,
+    cmd = f'''Select sc.ID, a.Name, a.Catagory, a.Description,
             sc.Price, sc.Status, sc.Quantity, sc.ACCard_ID,
             sc.Store_ID, s.Description
             from StoreCard sc 
@@ -31,7 +31,7 @@ def searchStoreCard(param:str, page:int, pageLimit:int, orderWay:str, ascending:
 def GetStoreCard(Card_ID:int):
     if sql.countTable(f"StoreCard where ID = {Card_ID}") == 0:
         return "Card not found"
-    cmd = f'''Select a.Name, a.Catagory, a.Description, a.imgPath,
+    cmd = f'''Select a.Name, a.Catagory, a.Description,
             sc.Price, sc.Status, sc.Quantity, sc.ACCard_ID,
             sc.Store_ID, s.Description
             from StoreCard sc 
@@ -98,7 +98,7 @@ def GetActualCard(card_id:int):
 # 增加 ActualCard
 def AddActualCard(data:dict):
     id = sql.getMaxId("ActualCard") + 1
-    ActualCard_arg = [id, data['name'],data['catagory'],data['description'],data['imgPath']]
+    ActualCard_arg = [id, data['name'],data['catagory'],data['description']]
     sql.command(sql.insert("ActualCard",ActualCard_arg))
     return "added"
 
@@ -109,7 +109,6 @@ def updateActualCard(data:dict):
     condition = [f"Name = '{data['name']}'"] if data.get('name') != None else []
     condition += [f"Catagory = '{data['catagory']}'"] if data.get('catagory') != None else []
     condition += [f"Description = '{data['description']}'"] if data.get('description') != None else []
-    condition += [f"imgPath = '{data['imgPath']}'"] if data.get('imgPath') != None else []
     sql.command(f"update ActualCard set {','.join(condition)} where ID = {data['card_id']}")
     return "updated"
 
