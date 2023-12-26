@@ -1,25 +1,32 @@
 import mysql as sql
 import math
+def CommentOutputFormat(output:list):
+    require = ["commentID","score","context","userID"]
+    res = {}
+    for (k,v) in zip(require, output):
+        res[k] = v
+    return res
+
 # 取評論
-def lookComment(store_id:int,page:int = 1,pageLimit:int = 30):
-    if sql.countTable(f"Store where ID = {store_id}") == 0:
+def lookComment(storeId:int,page:int = 1,pageLimit:int = 30):
+    if sql.countTable(f"Store where ID = {storeId}") == 0:
         return "Store not found"
-    cmd = f"SELECT ID, Score, Context, User_ID FROM Comment WHERE Store_ID = {store_id}"
+    cmd = f"SELECT ID, Score, Context, User_ID FROM Comment WHERE Store_ID = {storeId}"
     cmd += f" Limit {(page - 1)*pageLimit},{pageLimit}"
-    result = sql.command(cmd)
+    result = [CommentOutputFormat(r) for r in sql.command(cmd)]
     total = len(result)
-    total_page = math.floor(total / pageLimit) + 1
-    output = {"total_page":total_page, "items":result}
+    totalpage = math.floor(total / pageLimit) + 1
+    output = {"totalpage":totalpage, "items":result}
     return output
 
 # 增加評論
 def AddComment(data:dict):
-    if sql.countTable(f"Store where ID = {data['store_id']}") == 0:
+    if sql.countTable(f"Store where ID = {data['storeId']}") == 0:
         return "Store not found"
-    if sql.countTable(f"User where ID = {data['user_id']}") == 0:
+    if sql.countTable(f"User where ID = {data['userId']}") == 0:
         return "User not found"
     id = sql.getMaxId("Comment") + 1
-    Comment_arg = [id,data['score'],data['context'], data['store_id'], data['user_id']]
+    Comment_arg = [id,data['score'],data['context'], data['storeId'], data['userId']]
     sql.command(sql.insert("Comment",Comment_arg))
     return "added"
 

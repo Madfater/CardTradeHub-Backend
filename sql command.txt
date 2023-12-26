@@ -12,6 +12,7 @@ CREATE TABLE Shopping_Cart
 CREATE TABLE Store
 (
   ID INT NOT NULL,
+  Name VARCHAR(500) NOT NULL,
   Description VARCHAR(500),
   ModiefiedDate DATE NOT NULL,
   PRIMARY KEY (ID)
