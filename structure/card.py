@@ -6,7 +6,7 @@ import structure.store as store
 
 # 取得 StoreCard
 def searchStoreCard(param:str, page:int, pageLimit:int, orderWay:str, ascending:bool):
-    cmd = f'''Select sc.ID, a.Name, a.Catagory, a.Description,
+    cmd = f'''Select sc.ID, a.Name, a.Catagory, a.Description, a.imgPath,
             sc.Price, sc.Status, sc.Quantity, sc.ACCard_ID,
             sc.Store_ID, s.Description
             from StoreCard sc 
@@ -31,9 +31,9 @@ def searchStoreCard(param:str, page:int, pageLimit:int, orderWay:str, ascending:
 def GetStoreCard(Card_ID:int):
     if sql.countTable(f"StoreCard where ID = {Card_ID}") == 0:
         return "Card not found"
-    cmd = f'''Select a.Name, a.Catagory, a.Description,
+    cmd = f'''Select a.Name, a.Catagory, a.Description, a.imgPath,
             sc.Price, sc.Status, sc.Quantity, sc.ACCard_ID,
-            sc.Store_ID, s.Description
+            sc.Store_ID, s.Description,
             from StoreCard sc 
             Join Store s ON s.ID = sc.Store_ID
             Join ActualCard a ON a.ID = sc.ACCard_ID

@@ -25,3 +25,10 @@ def Login(data:dict):
     acuratePassword = sql.command(cmd)[0][0]
     id = sql.command("Select ID from User where Email = "+ f"'{data['email']}'")[0][0]
     return id if data['password'] == acuratePassword else "login failed"
+
+# get user name from id
+def GetName(user_id:int):
+    if sql.countTable(f"User where ID = '{user_id}'") == 0:
+        return "User not found"
+    cmd = f"Select User_Name from User where ID = {user_id}"
+    return sql.command(cmd)[0][0]
