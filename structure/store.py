@@ -27,6 +27,7 @@ def updateStore(data:dict):
     updateStoreTime(data['storeId'])
     return "updated"
 
+
 # update store ModiefiedDate
 def updateStoreTime(storeId:int):
     cmd = f"update Store set ModiefiedDate = '{str(datetime.today().date())}' where Store.ID = {storeId}"
