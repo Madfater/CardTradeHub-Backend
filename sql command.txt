@@ -99,16 +99,17 @@ CREATE TABLE Order_to_Card_Table
 );
 
 -- Insert data into Store table
-INSERT INTO Store (ID, Description, ModiefiedDate)
-VALUES (1, 'Happy Card Store', '2023-01-01'),
-       (2, 'Change Store', '2023-02-15'),
-       (3, 'Card Forever Store', '2023-03-20');
+INSERT INTO Store (ID ,Name ,Description, ModiefiedDate)
+VALUES (1, 'Happy Card Store', 'None', '2023-01-01'),
+       (2, 'Change Store', 'None', '2023-02-15'),
+       (3, 'Card Forever Store', 'None', '2023-03-20');
              
 -- Insert data into Shopping_Cart table
 INSERT INTO Shopping_Cart (ID)
 VALUES (1),
        (2),
        (3);
+
 -- Insert data into ActualCard table
 INSERT INTO ActualCard (ID, Name, Catagory, Description)
 VALUES(1, '青眼白龍', '怪獸卡', '超猛飛龍毀滅一切'),
