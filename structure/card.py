@@ -33,7 +33,7 @@ def GetStoreCard(Card_ID:int):
         return "Card not found"
     cmd = f'''Select a.Name, a.Catagory, a.Description, a.imgPath,
             sc.Price, sc.Status, sc.Quantity, sc.ACCard_ID,
-            sc.Store_ID, s.Description,
+            sc.Store_ID, s.Description
             from StoreCard sc 
             Join Store s ON s.ID = sc.Store_ID
             Join ActualCard a ON a.ID = sc.ACCard_ID
