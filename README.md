@@ -490,7 +490,7 @@ return likes
     "price":10,
     "status":"9成新",
     "quantity":4,
-    "accardId": 2
+    "ACCard_ID": 2
 }
 ```
 return storecardId or "Store not found"
