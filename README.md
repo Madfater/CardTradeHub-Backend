@@ -53,7 +53,7 @@ return User ID or "login failed" or "this email isn't register yet"
 # /user/name?id=<int:userId> , method = GET
 # ex : /user/name?id=1
 ```
-return User ID or "login failed" or "this email isn't register yet"
+return User name or "User not found"
 </details>
 
 ### Shopping Cart

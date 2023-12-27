@@ -15,26 +15,22 @@ def storecardOutputFormat(output:list):
 
 # 搜尋所有商品
 def searchStoreCard(param:str, catagory:str, page:int, pageLimit:int, orderWay:str, ascending:bool):
-    
     conditions= f'''StoreCard sc 
             Join Store s ON s.ID = sc.Store_ID
             Join ActualCard a ON a.ID = sc.ACCard_ID
             where sc.ACCard_ID IN 
             (Select ID from ActualCard
             where Name like "%{param}%" and Catagory like "%{catagory}%") '''
-    
     total_row = sql.countTable(conditions)
-    
     if total_row == 0:
         return "Not Found"
-            
     cmd=f'''Select sc.ID, a.Name, a.ID, 
             sc.Price, sc.Quantity, sc.Store_ID,
             s.Name from '''         
-    cmd += conditions    
+    cmd += conditions
     cmd += f" Order By {order_way[orderWay]} {'ASC' if ascending else 'DESC'}"
     cmd += f" Limit {(page-1)*pageLimit},{pageLimit}"
-        
+    print(cmd)
     result = [storecardOutputFormat(r) for r in sql.command(cmd)]
         
     total_page = math.ceil(total_row / pageLimit) 
