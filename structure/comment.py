@@ -1,7 +1,7 @@
 import mysql as sql
 import math
 def CommentOutputFormat(output:list):
-    require = ["commentID","score","context","userID"]
+    require = ["commentID","score","context","userID","userName"]
     res = {}
     for (k,v) in zip(require, output):
         res[k] = v
