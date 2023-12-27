@@ -362,7 +362,7 @@ return "Order not found" or "removed"
 <summary>get StoreCard</summary>
 
 ```python
-# /card?id=<int:cardId> , method = POST
+# /card?id=<int:cardId> , method = GET
 # ex: /card?id=1
 ```
 
@@ -490,7 +490,7 @@ return likes
     "price":10,
     "status":"9成新",
     "quantity":4,
-    "accardId": 2
+    "ACCard_ID": 2
 }
 ```
 return storecardId or "Store not found"

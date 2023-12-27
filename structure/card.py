@@ -51,7 +51,7 @@ def GetStoreCard(cardId:int):
             s.Description
             from StoreCard sc 
             Join Store s ON s.ID = sc.Store_ID
-            Join ActualCard a ON a.ID = sc.ACcardId
+            Join ActualCard a ON a.ID = sc.ACCard_ID
             where s.ID = {cardId}'''
     result = sql.command(cmd)[0]
     return storecardOutputFormat(result)
@@ -88,7 +88,7 @@ def AddStoreCard(data:dict):
     if sql.countTable(f"Store where ID = {data['storeId']}") == 0:
         return "Store not found"
     id = sql.getMaxId("StoreCard") + 1
-    StoreCard_arg = [id,data["price"],data['status'],data['quantity'],data['accardId'],data['storeId']]
+    StoreCard_arg = [id,data["price"],data['status'],data['quantity'],data['ACCard_ID'],data['storeId']]
     sql.command(sql.insert("StoreCard",StoreCard_arg))
     store.updateStoreTime(getStore(id))
     return id
@@ -165,6 +165,6 @@ def updateActualCard(data:dict):
 def removeActualCard(data:dict):
     if sql.countTable(f"ActualCard where ID = {data['cardId']}") == 0:
         return "Card not found"
-    sql.command(f"Delete from StoreCard where ACcardId = {data['cardId']}")
+    sql.command(f"Delete from StoreCard where ACCard_ID = {data['cardId']}")
     sql.command(f"Delete from ActualCard where ID = {data['cardId']}")
     return "removed"
