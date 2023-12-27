@@ -378,7 +378,7 @@ return "Order not found" or "removed"
 <summary>get StoreCard</summary>
 
 ```python
-# /card?id=<int:cardId> , method = POST
+# /card?id=<int:cardId> , method = GET
 # ex: /card?id=1
 ```
 

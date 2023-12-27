@@ -45,7 +45,7 @@ def GetStoreCard(cardId:int):
             s.Description
             from StoreCard sc 
             Join Store s ON s.ID = sc.Store_ID
-            Join ActualCard a ON a.ID = sc.ACcardId
+            Join ActualCard a ON a.ID = sc.ACCard_ID
             where s.ID = {cardId}'''
     result = sql.command(cmd)[0]
     return storecardOutputFormat(result)
