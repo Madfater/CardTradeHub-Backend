@@ -12,9 +12,10 @@ def lookComment(storeId:int,page:int = 1,pageLimit:int = 30):
     if sql.countTable(f"Store where ID = {storeId}") == 0:
         return "Store not found"
     
-    cmd = f"SELECT ID, Score, Context, User_ID FROM "
+    cmd = f"SELECT c.ID, c.Score, c.Context, c.User_ID , u.User_Name FROM "
     
-    conditions = f"Comment WHERE Store_ID = {storeId}"
+    conditions = f'''Comment c Join User u ON u.ID=c.User_ID
+                    WHERE c.Store_ID = {storeId}'''
     
     cmd += conditions
     cmd += f" Limit {(page - 1)*pageLimit},{pageLimit}"

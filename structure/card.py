@@ -45,14 +45,14 @@ def searchStoreCard(param:str, catagory:str, page:int, pageLimit:int, orderWay:s
 def GetStoreCard(cardId:int):
     if sql.countTable(f"StoreCard where ID = {cardId}") == 0:
         return "Card not found"
-    cmd = f'''Select sc.ID, a.Name, a.ID, 
+    cmd = f'''Select sc.ID, a.Name, sc.ACCard_ID, 
             sc.Price, sc.Quantity, sc.Store_ID,
             s.Name,
             s.Description
             from StoreCard sc 
             Join Store s ON s.ID = sc.Store_ID
             Join ActualCard a ON a.ID = sc.ACCard_ID
-            where s.ID = {cardId}'''
+            where sc.ID = {cardId}'''
     result = sql.command(cmd)[0]
     return storecardOutputFormat(result)
 
