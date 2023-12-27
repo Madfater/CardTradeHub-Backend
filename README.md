@@ -91,7 +91,7 @@ return StoreCard in ShoppingCart likes
             }
         ]
     },
-    "totalpage": 1
+    "totalPage": 1
 }
 ```
 </details>
@@ -147,40 +147,7 @@ return likes
 </details>
 
 <details>
-<summary>check Card in Store</summary>
 
-```python
-# /card/store?storeId=<int:storeId> , method = GET
-# params可選包括 page (int), pageLimit (int), orderWay (str)(包含 id, name, quantity), ascending(bool)
-# ex:/card/store?storeId=1&page=1&ascending=true
-```
-return likes
-```python
-{
-    "items": [
-        {
-            "storeId": 1,
-            "name": "神聖彗星反射力量",
-            "actaulCardID": 4,
-            "price": 500,
-            "quantity": 10,
-            "storeCardId": 4,
-            "storeName": "Happy Card Store"
-        },
-        {
-            "storeId": 1,
-            "name": "黑魔導女孩",
-            "actaulCardID": 2,
-            "price": 10,
-            "quantity": 4,
-            "storeCardId": 7,
-            "storeName": "Happy Card Store"
-        }
-    ],
-    "totalpage": 1
-}
-```
-</details>
 
 ### Actual Card
 
@@ -266,7 +233,7 @@ return "Store not found" or return comment likes
             "userID": 1
         }
     ],
-    "totalpage": 1
+    "totalPage": 1
 }
 ```
 </details>
@@ -322,24 +289,41 @@ return "Comment not found" or "removed"
 <summary>check Order</summary>
 
 ```python
-# /order?id=<int:order_id> , method = GET
+# /order?id=<int:user_id> , method = GET
 # params可選包括 page (int), pageLimit (int)
-# ex: /order?id=101&page=1
+# ex: /order?id=1&page=1
 ```
 return "Order not found" or return Order likes
 ```python
 {
     "items": {
-        "1": [
+        "101": [ #訂單ID
             {
                 "actualCardID": 4,
                 "orderQuantity": 4,
                 "storeCardID": 4,
-                "storeCardPrice": 500
+                "storeCardPrice": 500,
+                "storeID": 1
+            }
+        ],
+        "104": [
+            {
+                "actualCardID": 2,
+                "orderQuantity": 1,
+                "storeCardID": 2,
+                "storeCardPrice": 15,
+                "storeID": 3
+            },
+            {
+                "actualCardID": 3,
+                "orderQuantity": 4,
+                "storeCardID": 3,
+                "storeCardPrice": 40,
+                "storeID": 1
             }
         ]
     },
-    "totalpage": 1
+    "totalPage": 1
 }
 ```
 </details>
@@ -428,7 +412,70 @@ return "no results" or return StoreCard likes
             "storeName": "Change Store"
         }
     ],
-    "totalpage": 1
+    "totalPage": 1
+}
+```
+</details>
+
+<details>
+<summary>Search Card in Store</summary>
+
+```python
+# /card/store?storeId=<int:storeId> , method = GET
+# params可選包括 page (int), pageLimit (int), orderWay (str)(包含 id, name, quantity), ascending(bool)
+# ex:/card/store?storeId=1&page=1&ascending=true
+```
+return likes
+```python
+{
+    "items": [
+        {
+            "actaulCardID": 13,
+            "name": "時光回溯",
+            "price": 500,
+            "quantity": 10,
+            "storeCardId": 13,
+            "storeId": 2,
+            "storeName": "None"
+        },
+        {
+            "actaulCardID": 11,
+            "name": "聖光之盾",
+            "price": 15,
+            "quantity": 20,
+            "storeCardId": 11,
+            "storeId": 2,
+            "storeName": "None"
+        },
+        {
+            "actaulCardID": 7,
+            "name": "冰霜巨人",
+            "price": 500,
+            "quantity": 10,
+            "storeCardId": 7,
+            "storeId": 2,
+            "storeName": "None"
+        },
+        {
+            "actaulCardID": 5,
+            "name": "貪欲之壺",
+            "price": 15,
+            "quantity": 20,
+            "storeCardId": 5,
+            "storeId": 2,
+            "storeName": "None"
+        },
+        {
+            "actaulCardID": 1,
+            "name": "青眼白龍",
+            "price": 500,
+            "quantity": 10,
+            "storeCardId": 1,
+            "storeId": 2,
+            "storeName": "None"
+        }
+    ],
+    "totalPage": 1
 }
 ```
 </details>

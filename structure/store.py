@@ -9,12 +9,31 @@ def StoreOutputFormat(output:list):
         res[k] = v
     return res
 
-# 查 store
+# 取得 store 資訊
 def GetStore(storeId:int):
     if sql.countTable(f"Store where ID = {storeId}") == 0:
         return "Store not found"
     cmd = f"Select ID, Name, Description from Store where ID = {storeId}"
     return StoreOutputFormat(sql.command(cmd)[0])
+
+def SearchStore(param:str,page:int,pageLimit:int):
+    
+    conditions= f'''Store where Name like "%{param}%" '''
+    
+    total_row = sql.countTable(conditions)
+    
+    if total_row == 0:
+        return "Not Found"
+            
+    cmd="Select * from "      
+    cmd += conditions    
+    cmd += f" Limit {(page-1)*pageLimit},{pageLimit}"
+        
+    result = [StoreOutputFormat(r) for r in sql.command(cmd)]
+        
+    total_page = math.ceil(total_row / pageLimit) 
+    
+    return {"totalPage":total_page, "items":result}
 
 # store update
 def updateStore(data:dict):
@@ -26,6 +45,7 @@ def updateStore(data:dict):
     sql.command(cmd)
     updateStoreTime(data['storeId'])
     return "updated"
+
 
 # update store ModiefiedDate
 def updateStoreTime(storeId:int):
