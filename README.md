@@ -502,7 +502,7 @@ return storecardId or "Store not found"
 ```python
 # /card/update , method = POST
 {
-    "storeId" : 1,
+    "cardId" : 1,
     "price":10,
     "status":"9成新",
     "quantity":4

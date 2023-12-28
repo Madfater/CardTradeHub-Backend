@@ -136,7 +136,7 @@ def AddCard():
 
 @app.route('/card/update', methods = ['PUT'])
 def UpdateCard():
-    return jsonify(card.UpdateCard(request.get_json()))
+    return jsonify(card.updateStoreCard(request.get_json()))
 
 @app.route('/card/remove', methods = ['DELETE'])
 def RemoveCard():
