@@ -53,7 +53,7 @@ return User ID or "login failed" or "this email isn't register yet"
 # /user/name?id=<int:userId> , method = GET
 # ex : /user/name?id=1
 ```
-return User ID or "login failed" or "this email isn't register yet"
+return User name or "User not found"
 </details>
 
 ### Shopping Cart
@@ -502,7 +502,7 @@ return storecardId or "Store not found"
 ```python
 # /card/update , method = POST
 {
-    "storeId" : 1,
+    "cardId" : 1,
     "price":10,
     "status":"9成新",
     "quantity":4

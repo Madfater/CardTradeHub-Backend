@@ -130,8 +130,8 @@ def Card():
 
 @app.route('/card/search', methods = ['GET'])
 def SearchCard():
-    param = request.args.get('keyword')
-    catagory = request.args.get('catagory')
+    param = request.args.get('keyword',default = "", type = str)
+    catagory = request.args.get('catagory',default = "", type = str)
     page = request.args.get('page', default = 1, type = int)
     pageLimit = request.args.get('pageLimit', default = 30, type = int)
     orderWay = request.args.get('orderWay', default = "id", type = str)
@@ -153,7 +153,7 @@ def AddCard():
 
 @app.route('/card/update', methods = ['PUT'])
 def UpdateCard():
-    return jsonify(card.UpdateCard(request.get_json()))
+    return jsonify(card.updateStoreCard(request.get_json()))
 
 @app.route('/card/remove', methods = ['DELETE'])
 def RemoveCard():
