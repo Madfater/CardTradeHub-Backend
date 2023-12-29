@@ -1,6 +1,7 @@
 drop database testdb;
+
 create database testdb;
-use testdb;
+use testDB;
 
 CREATE TABLE Shopping_Cart
 (
@@ -96,14 +97,20 @@ CREATE TABLE Order_to_Card_Table
   FOREIGN KEY (Order_ID) REFERENCES Order_List(ID),
   FOREIGN KEY (Card_ID) REFERENCES StoreCard(ID)
 );
+
+-- Insert data into Store table
 INSERT INTO Store (ID ,Name ,Description, ModiefiedDate)
 VALUES (1, 'Happy Card Store', 'None', '2023-01-01'),
        (2, 'Change Store', 'None', '2023-02-15'),
        (3, 'Card Forever Store', 'None', '2023-03-20');
+             
+-- Insert data into Shopping_Cart table
 INSERT INTO Shopping_Cart (ID)
 VALUES (1),
        (2),
        (3);
+
+-- Insert data into ActualCard table
 INSERT INTO ActualCard (ID, Name, Catagory, Description)
 VALUES(1, '青眼白龍', '怪獸卡', '超猛飛龍毀滅一切'),
       (2, '黑魔導女孩', '怪獸卡', '漂亮妹妹'),
@@ -140,7 +147,7 @@ VALUES(1, '青眼白龍', '怪獸卡', '超猛飛龍毀滅一切'),
       (33, '地獄火', '怪獸卡', '燃燒一切的地獄之火'),
       (34, '時空裂縫', '陷阱卡', '打開時空裂縫來阻擋敵人'),
       (35, '血之契約', '法術卡', '與血之力量締結契約'),
-      (36, '神聖之光', '法術卡', '散發神聖之光治癒盟友'),
+      (36, '神聖之光', '法術卡', '散發神聖之光治癒盟友',),
       (37, '瘟疫使者', '怪獸卡', '傳播致命瘟疫的使者'),
       (38, '鏡像咒文', '法術卡', '製造分身的鏡像'),
       (39, '風暴之弓', '武器卡', '擁有風暴之力的神秘弓'),
@@ -154,15 +161,21 @@ VALUES(1, '青眼白龍', '怪獸卡', '超猛飛龍毀滅一切'),
     (47, '深淵巨獸', '怪獸卡', '來自深淵的巨大怪獸'),
     (48, '噬魂之刃', '武器卡', '吞噬敵人靈魂的魔劍'),
     (49, '霜雪之靈', '怪獸卡', '寄宿在冰雪中的靈魂'),
-    (50, '地獄風暴', '法術卡', '引發地獄風暴摧毀一切');
+    (50, '地獄風暴', '法術卡', '引發地獄風暴摧毀一切');	
+
+-- Insert data into User table
 INSERT INTO User (ID, Email, User_Name, Password, IsManager, Cart_ID, Store_ID)
 VALUES (1, 'user1@example.com', 'User1', 'password1', false, 1, 1),
        (2, 'user2@example.com', 'User2', 'password2', true, 2, 2),
        (3, 'user3@example.com', 'User3', 'password3', false, 3, 3);
+
+-- Insert data into Order table
 INSERT INTO Order_List (ID, Address, Total_Price, User_ID)
 VALUES (101, '台北市中山區自立街123號', 500,1),
        (102, '高雄市楠梓區仁愛路456號', 15,2),
        (103, '桃園市中壢區中正路222號', 40,3);
+
+-- Insert data into StoreCard table
 INSERT INTO StoreCard (ID, Price, Status, Quantity, ACCard_ID, Store_ID)
 VALUES (1, 500, '九成新狀態良好', 10, 1, 2),
        (2, 15, '舊卡新賣', 20, 2, 3),
@@ -180,14 +193,20 @@ VALUES (1, 500, '九成新狀態良好', 10, 1, 2),
       (14, 15, '舊卡新賣', 20, 14, 3),
       (15, 40, '九成新狀態良好', 15, 15, 1),
       (56, 40, '九成新狀態良好', 15, 6, 1);
+
+-- Insert data into Card_to_Cart_Table table
 INSERT INTO Card_to_Cart_Table (ID, Quantity, Cart_ID, Card_ID)
 VALUES (1, 2, 1, 1),
        (2, 3, 2, 2),
        (3, 4, 3, 3);
+
+-- Insert data into Order_to_Card_Table table
 INSERT INTO Order_to_Card_Table (ID,Quantity, Order_ID, Card_ID)
 VALUES (1, 4, 101, 4),
        (2, 3, 102, 5),
        (3, 2, 103, 6);
+
+-- Insert data into Comment table
 INSERT INTO Comment (ID, Score, Context, Store_ID, User_ID)
 VALUES (1, 5, '賣家出貨快', 1, 1),
        (2, 4, '優質卡片，卡片很新', 2, 2),

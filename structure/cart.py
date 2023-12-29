@@ -2,7 +2,7 @@ import mysql as sql
 import math
 
 def shoppingcartOutputFormat(output:list):
-    require = ["storeCardId","storeCardPrice","storeCardStatus","storeCardQuantity","cardName","cardCategory", "cardDescription"]
+    require = ["storeCardId","storeCardPrice","storeCardStatus","cartQuantity","cardId","cardName","cardCategory", "cardDescription","storeName"]
     res = {}
     for (k,v) in zip(require, output):
         res[k] = v
@@ -13,19 +13,19 @@ def lookCart(userId:int,page:int = 1, pageLimit:int = 30):
     if sql.countTable(f"User where ID = {userId}") == 0:
         return "User not found"
         
-    cmd = f'''select sc.ID, sc.Price, sc.Status, sc.Quantity,
-        ac.Name, ac.Catagory,
-        ac.Description, sc.Store_ID
+    cmd = f'''select sc.ID, sc.Price, sc.Status, cctable.Quantity,
+        ac.ID,ac.Name, ac.Catagory,
+        ac.Description, s.Name,sc.Store_ID
         from '''
         
     conditions = f'''StoreCard sc
         inner join Card_to_Cart_Table cctable ON cctable.Card_ID = sc.ID
         inner join Shopping_Cart scart ON scart.ID = cctable.Cart_ID
         inner join ActualCard ac ON ac.ID = sc.ACCard_ID
+        inner join Store s ON s.ID = sc.Store_ID
         where scart.ID = {userId}'''
     
     cmd += conditions
-    cmd += f" Limit {(page - 1)*pageLimit},{pageLimit}"
     
     result = sql.command(cmd)
     items = {}
@@ -47,20 +47,35 @@ def addCard(data:dict):
         return "User not found"
     if sql.countTable(f"StoreCard where ID = {data['cardId']}") == 0:
         return "Card not found"
+    if sql.countTable(f"Card_to_Cart_Table where Card_ID = {data['cardId']} and Cart_ID = {data['userId']}")!=0:
+        return updateCard(data)
     id = sql.getMaxId("Card_to_Cart_Table") + 1
     card_to_cart_arg = [id, data['quantity'], data['userId'], data['cardId']]
     sql.command(sql.insert("Card_to_Cart_Table",card_to_cart_arg))
     return "added"
 
 # remove card from shopping cart
-def removeCard(data:dict):
-    if sql.countTable(f"User where ID = {data['userId']}") == 0:
-        return "User not found"
-    if sql.countTable(f"StoreCard where ID = {data['cardId']}") == 0:
+def removeCard(userId,cardId):
+    if sql.countTable(f"User where ID = {userId}") == 0:
+        return "User not found"    
+    if sql.countTable(f"StoreCard where ID = {cardId}") == 0:
         return "Card not found"
-    if sql.countTable(f"Card_to_Cart_Table where cardId = {data['cardId']}") == 0:
+    if sql.countTable(f"Card_to_Cart_Table where Card_ID = {cardId}") == 0:
         return "Card not in shopping cart"
     sql.command(f'''Delete From Card_to_Cart_Table 
-                where cardId = {data['cardId']} 
-                and Cart_ID = {data['userId']}''')
+                where Card_ID = {cardId} 
+                and Cart_ID = {userId}''')
     return "removed"
+
+# update card from shopping cart
+def updateCard(data:dict):
+    if sql.countTable(f"User where ID = {data['userId']}") == 0:
+        return "User not found"    
+    if sql.countTable(f"StoreCard where ID = {data['cardId']}") == 0:
+        return "Card not found"
+    if sql.countTable(f"Card_to_Cart_Table where Card_ID = {data['cardId']}") == 0:
+        return "Card not in shopping cart"
+    sql.command(f'''UPDATE Card_to_Cart_Table 
+                    SET Quantity = {data['quantity']} 
+                    WHERE Cart_ID = {data['userId']} AND Card_ID = {data['cardId']}''')
+    return "updated"

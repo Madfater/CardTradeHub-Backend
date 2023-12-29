@@ -43,13 +43,19 @@ def Cart():
     pageLimit = request.args.get('page_limit', default = 30, type = int)
     return jsonify(cart.lookCart(userId,page,pageLimit))
 
-@app.route('/cart/add', methods = ['POST'])
+@app.route('/cart', methods = ['POST'])
 def AddCardToCart():
     return jsonify(cart.addCard(request.get_json()))
 
-@app.route('/cart/remove', methods = ['DELETE'])
+@app.route('/cart', methods = ['DELETE'])
 def RemoveCardFromCart():
-    return jsonify(cart.removeCard(request.get_json()))
+    userId = request.args.get('userId')
+    cardId = request.args.get('cardId')
+    return jsonify(cart.removeCard(userId,cardId))
+
+@app.route('/cart', methods = ['PUT'])
+def UpdateCardFromCart():
+    return jsonify(cart.updateCard(request.get_json()))
 
 # Store
 @app.route('/store', methods = ['GET'])
@@ -64,7 +70,7 @@ def SearchStore():
     pageLimit = request.args.get('pageLimit', default = 30, type = int)
     return jsonify(store.SearchStore(param,page,pageLimit))
 
-@app.route('/store/update', methods = ['PUT'])
+@app.route('/store', methods = ['PUT'])
 def UpdateStore():
     return jsonify(store.updateStore(request.get_json()))
 
@@ -74,15 +80,15 @@ def ActualCard():
     cardId = request.args.get('id')
     return jsonify(card.GetActualCard(cardId))
 
-@app.route('/actualCard/add', methods = ['POST'])
+@app.route('/actualCard', methods = ['POST'])
 def AddActualCard():
     return jsonify(card.AddActualCard(request.get_json()))
 
-@app.route('/actualCard/update', methods = ['PUT'])
+@app.route('/actualCard', methods = ['PUT'])
 def UpdateActualCard():
     return jsonify(card.updateActualCard(request.get_json()))
 
-@app.route('/actualCard/remove', methods = ['DELETE'])
+@app.route('/actualCard', methods = ['DELETE'])
 def RemoveActualCard():
     return jsonify(card.removeActualCard(request.get_json()))
 
@@ -94,15 +100,15 @@ def Comment():
     pageLimit = request.args.get('pageLimit', default = 30 , type = int)
     return jsonify(comment.lookComment(storeId,page,pageLimit))
 
-@app.route('/comment/add', methods = ['POST'])
+@app.route('/comment', methods = ['POST'])
 def AddComment():
     return jsonify(comment.AddComment(request.get_json()))
 
-@app.route('/comment/update', methods = ['PUT'])
+@app.route('/comment', methods = ['PUT'])
 def UpdateComment():
     return jsonify(comment.updateComment(request.get_json()))
 
-@app.route('/comment/remove', methods = ['DELETE'])
+@app.route('/comment', methods = ['DELETE'])
 def RemoveComment():
     return jsonify(comment.removeComment(request.get_json()))
 
@@ -114,11 +120,15 @@ def Order():
     pageLimit = request.args.get('pageLimit', default = 30 , type = int)
     return jsonify(order.lookOrder(id, page, pageLimit))
 
-@app.route('/order/add', methods = ['POST'])
+@app.route('/order', methods = ['POST'])
 def AddOrder():
     return jsonify(order.addOrder(request.get_json()))
 
-@app.route('/order/remove', methods = ['DELETE'])
+@app.route('/order', methods = ['PUT'])
+def UpdateOrder():
+    return jsonify(order.updateOrder(request.get_json()))
+
+@app.route('/order', methods = ['DELETE'])
 def RemoveOrder():
     return jsonify(order.removeOrder(request.get_json()))
 
@@ -130,8 +140,8 @@ def Card():
 
 @app.route('/card/search', methods = ['GET'])
 def SearchCard():
-    param = request.args.get('keyword',default = "", type = str)
-    catagory = request.args.get('catagory',default = "", type = str)
+    param = request.args.get('keyword')
+    catagory = request.args.get('catagory')
     page = request.args.get('page', default = 1, type = int)
     pageLimit = request.args.get('pageLimit', default = 30, type = int)
     orderWay = request.args.get('orderWay', default = "id", type = str)
@@ -147,17 +157,19 @@ def StoreCard():
     ascending = request.args.get('ascending', default = True, type = lambda x: x.lower() == 'true')
     return jsonify(card.lookCardInStore(storeId, page, pageLimit, orderWay, ascending))
 
-@app.route('/card/add', methods = ['POST'])
+@app.route('/card', methods = ['POST'])
 def AddCard():
     return jsonify(card.AddStoreCard(request.get_json()))
 
-@app.route('/card/update', methods = ['PUT'])
+@app.route('/card', methods = ['PUT'])
 def UpdateCard():
     return jsonify(card.updateStoreCard(request.get_json()))
 
-@app.route('/card/remove', methods = ['DELETE'])
+@app.route('/card', methods = ['DELETE'])
 def RemoveCard():
-    return jsonify(card.removeStoreCard(request.get_json()))
+    userId = request.args.get('userId')
+    cardId = request.args.get('cardId')
+    return jsonify(card.removeStoreCard(userId,cardId))
 
 if __name__ == '__main__':
     app.run(debug = True, host="0.0.0.0")
