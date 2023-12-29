@@ -30,7 +30,6 @@ def searchStoreCard(param:str, catagory:str, page:int, pageLimit:int, orderWay:s
     cmd += conditions
     cmd += f" Order By {order_way[orderWay]} {'ASC' if ascending else 'DESC'}"
     cmd += f" Limit {(page-1)*pageLimit},{pageLimit}"
-    print(cmd)
     result = [storecardOutputFormat(r) for r in sql.command(cmd)]
         
     total_page = math.ceil(total_row / pageLimit) 
