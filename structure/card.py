@@ -102,15 +102,15 @@ def updateStoreCard(data:dict):
     return "updated"
 
 # 下架 StoreCard
-def removeStoreCard(data:dict):
-    if sql.countTable(f"StoreCard where ID = {data['cardId']}") == 0:
+def removeStoreCard(userId:int,cardId:int):
+    if sql.countTable(f"StoreCard where ID = {cardId}") == 0:
         return "Card not found"
-    if sql.command(f"select store_id from StoreCard where ID =  {data['cardId']}")[0][0] != data['userId']:
+    if sql.command(f"select store_id from StoreCard where ID =  {cardId}")[0][0] != int(userId):
         return "no access"
-    store.updateStoreTime(getStore(data['cardId']))
-    sql.command(f"DELETE FROM Order_to_Card_Table WHERE cardId = {data['cardId']}")
-    sql.command(f"DELETE FROM Card_to_Cart_TableID WHERE cardId = {data['cardId']}")
-    sql.command(f"DELETE FROM StoreCard WHERE ID = {data['cardId']}")
+    store.updateStoreTime(getStore(cardId))
+    sql.command(f"DELETE FROM Order_to_Card_Table WHERE cardId = {cardId}")
+    sql.command(f"DELETE FROM Card_to_Cart_TableID WHERE cardId = {cardId}")
+    sql.command(f"DELETE FROM StoreCard WHERE ID = {cardId}")
     return "removed"
 
 def getPrice(cardId:int):
